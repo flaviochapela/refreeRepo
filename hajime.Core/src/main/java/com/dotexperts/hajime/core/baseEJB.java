@@ -7,7 +7,6 @@ package com.dotexperts.hajime.core;
 
 import com.dotexperts.hajime.dao.GenericDao;
 import com.dotexperts.hajime.interfaces.iBase;
-import com.dotexperts.hajime.model.Federacao;
 import com.dotexperts.hajime.model.GenericModel;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
