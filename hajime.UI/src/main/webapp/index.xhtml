@@ -7,11 +7,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       >
     <h:head>
-        <title>Facelet Title</title>
+        <title>hajime!</title>
     </h:head>
     <h:body>
         <h:outputStylesheet name="css/default.css" />
-        <h:form>
+        <h:form id="form1">
 
             <p:dataTable value="#{pesquisaEventosMB.campeonatos}" var="campeonato" id="dtCampeonatos"  widgetVar="campeonatoTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
                          filteredValue="#{pesquisaEventosMB.filteredcampeonatos}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
@@ -34,36 +34,34 @@
                     <h:outputText value="#{campeonato.local}"/>
                 </p:column> 
                 <p:column headerText="Editar">                    
-                    <p:commandButton action="#{pesquisaEventosMB.editar(campeonato)}" icon="ui-icon-pencil" />                    
+                    <p:commandButton  oncomplete="PF('campeonatoDialog').show()"  update=":form3" icon="ui-icon-pencil" >
+                        <f:setPropertyActionListener value="#{campeonato}" target="#{pesquisaEventosMB.unitCampeonato}" />
+                    </p:commandButton>                    
                 </p:column>  
             </p:dataTable>
-            
-              <p:dialog header="Dados Campeonato" widgetVar="campeonatoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="campeaonatoDetail" style="text-align:center;">
-                  <div class="ui-g">
-                      <div class="ui-g-12">
-                          <p:outputLabel for="txtNome" value="Nome: " />
-                          <p:inputText id="txtNome" value="#{pesquisaEventosMB.unitCampeonato.nome}" />
-                      </div>                        
-                   </div>
-                    <div class="ui-g">
-                        <div class="ui-g-3">
-                            <p:outputLabel for="txtLocal" value="Local " />
-                            <p:inputText id="txtLocal" value="#{pesquisaEventosMB.unitCampeonato.local}" />
-                        </div>
-                        <div class="ui-g-3">
-                            <p:outputLabel for="txtCidade" value="Cidade: " />
-                            <p:inputText id="txtCidade" value="#{pesquisaEventosMB.unitCampeonato.cidade}" />
-                        </div>
-                        <div class="ui-g-3">
-                            <p:outputLabel value="Delegacia" for="dd" />
-                            <p:autoComplete id="dd" dropdown="true" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
-                        </div>
-                   </div>
-                </p:outputPanel>
-            </p:dialog>
-            
         </h:form>
+        <p:dialog header="Dados Campeonato" widgetVar="campeonatoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
+            <h:form id="form3">
+                <div class="ui-g">
+                    <div class="ui-g-12">                         
+                        <p:inputText value="#{pesquisaEventosMB.unitCampeonato.nome}" />
+                    </div>                        
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-3">
+
+                    </div>
+                    <div class="ui-g-3">
+
+                    </div>
+                    <div class="ui-g-3">
+
+                    </div>
+                </div>                
+            </h:form>
+        </p:dialog>
+
+
     </h:body>
 </html>
 
