@@ -7,11 +7,13 @@ package com.dotexperts.hajime.core;
 
 import com.dotexperts.hajime.interfaces.iDelegacia;
 import com.dotexperts.hajime.model.Delegacia;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author admprodesp
  */
+@Stateless
 public class DelegaciaEJB extends baseEJB<Delegacia> implements iDelegacia{
     
 }

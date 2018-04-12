@@ -7,11 +7,13 @@ package com.dotexperts.hajime.core;
 
 import com.dotexperts.hajime.interfaces.iArbitro;
 import com.dotexperts.hajime.model.Arbitro;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author admprodesp
  */
+@Stateless
 public class ArbitroEJB extends baseEJB<Arbitro> implements iArbitro {
     
 }
