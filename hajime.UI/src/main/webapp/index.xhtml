@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/default.css" />
+        <h:form>
+
+            <p:dataTable value="#{pesquisaEventosMB.campeonatos}" var="campeonato" id="dtCampeonatos"  widgetVar="campeonatoTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
+                         filteredValue="#{pesquisaEventosMB.filteredcampeonatos}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
+                <f:facet name="header" >
+                    Campeonatos                  
+                </f:facet>
+                <p:column  headerText="Federação" width="10%" resizable="true"> 
+                    <h:outputText value="#{campeonato.iddelegacia.idFederacao.federacao}"/>
+                </p:column>    
+                <p:column filterBy="#{campeonato.nome}" headerText="Nome" width="30%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{campeonato.nome}"/>
+                </p:column> 
+                <p:column headerText="Data" width="10%" resizable="true">
+                    <h:outputText value="#{campeonato.data}"/>
+                </p:column>        
+                <p:column headerText="Cidade" width="15%" resizable="true">
+                    <h:outputText value="#{campeonato.cidade}"/>
+                </p:column>
+                <p:column headerText="Local" width="15%" resizable="true">
+                    <h:outputText value="#{campeonato.local}"/>
+                </p:column> 
+                <p:column headerText="Editar">                    
+                    <p:commandButton action="#{pesquisaEventosMB.editar(campeonato)}" icon="ui-icon-pencil" />                    
+                </p:column>  
+            </p:dataTable>
+            
+              <p:dialog header="Dados Campeonato" widgetVar="campeonatoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="campeaonatoDetail" style="text-align:center;">
+                  <div class="ui-g">
+                      <div class="ui-g-12">
+                          <p:outputLabel for="txtNome" value="Nome: " />
+                          <p:inputText id="txtNome" value="#{pesquisaEventosMB.unitCampeonato.nome}" />
+                      </div>                        
+                   </div>
+                    <div class="ui-g">
+                        <div class="ui-g-3">
+                            <p:outputLabel for="txtNome" value="Local " />
+                            <p:inputText id="txtNome" value="#{pesquisaEventosMB.unitCampeonato.local}" />
+                        </div>
+                        <div class="ui-g-3">
+                            <p:outputLabel for="txtNome" value="Cidade: " />
+                            <p:inputText id="txtNome" value="#{pesquisaEventosMB.unitCampeonato.cidade}" />
+                        </div>
+                        <div class="ui-g-3">
+                            <p:outputLabel value="Delegacia" for="dd" />
+                            <p:autoComplete id="dd" dropdown="true" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
+                        </div>
+                   </div>
+                </p:outputPanel>
+            </p:dialog>
+            
+        </h:form>
+    </h:body>
+</html>
+
