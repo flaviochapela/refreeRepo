@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Areas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37472791-96d0-43ef-b996-774ef1a1a849">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" fontName="MinhaFonte" fontSize="11"/>
+	<field name="arbitro" class="com.dotexperts.hajime.model.Campeonatoarbitro"/>
+	<field name="area" class="com.dotexperts.hajime.model.Campeonatoarbitro"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="55" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<image>
+				<reportElement uuid="15b77dc6-0fec-4359-8762-ce0d8bc9b340" x="38" y="0" width="60" height="60"/>
+				<imageExpression><![CDATA["C:\\Users\\admprodesp\\Desktop\\DESKTOP\\ARBITROS\\"+ $F{arbitro}.getIdArbitro() +".jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="147085ff-bb55-48ce-af07-4c9620215a0f" x="38" y="0" width="60" height="60"/>
+				<imageExpression><![CDATA["C:\\Users\\admprodesp\\Desktop\\DESKTOP\\ARBITROS\\mask.png"]]></imageExpression>
+			</image>
+			<rectangle radius="5">
+				<reportElement uuid="8597f06f-e68b-4808-8bbb-e23b9c5d2cf7" x="99" y="18" width="192" height="26"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement uuid="08198213-4525-42fb-9f4f-bc55cab5eaad" mode="Transparent" x="281" y="8" width="78" height="19"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="5db9f8c9-98ef-4969-a314-672156286b21" mode="Transparent" x="296" y="10" width="63" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Nacional A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b8dd732-21b7-444a-8b3f-b936a74dc7bc" x="98" y="42" width="136" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[Associação Namie de Judô]]></text>
+			</staticText>
+			<elementGroup/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
