@@ -43,21 +43,33 @@
         <p:dialog header="Dados Campeonato" widgetVar="campeonatoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
             <h:form id="form3">
                 <div class="ui-g">
-                    <div class="ui-g-12">                         
-                        <p:inputText value="#{pesquisaEventosMB.unitCampeonato.nome}" />
+                    <div class="ui-g-12">  
+                        <h:outputLabel value="Nome:" for="txtNome"/>
+                        <p:inputText id="txtNome" value="#{pesquisaEventosMB.unitCampeonato.nome}" size="200" maxlength="200" />
                     </div>                        
                 </div>
                 <div class="ui-g">
                     <div class="ui-g-3">
-
+                        <h:outputLabel value="Local:" for="txtLocal"/>
+                        <p:inputText id="txtLocal" value="#{pesquisaEventosMB.unitCampeonato.local}" />
                     </div>
                     <div class="ui-g-3">
-
+                        <h:outputLabel value="Cidade:" for="txtCidade"/>
+                        <p:inputText id="txtCidade" value="#{pesquisaEventosMB.unitCampeonato.cidade}" />
                     </div>
                     <div class="ui-g-3">
-
+                        <h:outputLabel value="Areas:" for="txtArea"/>
+                        <p:inputText id="txtArea" value="#{pesquisaEventosMB.unitCampeonato.areas}" />
                     </div>
-                </div>                
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-3">
+                        <p:selectOneMenu id="ddDelegacia" value="#{pesquisaEventosMB.unitCampeonato.iddelegacia}" effect="fold" >
+                            <f:selectItem itemLabel="Escolha uma" itemValue="" />
+                            <f:selectItems  var="delegacia" value="#{pesquisaEventosMB.delegacias}" itemLabel="#{delegacia.delegacia}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
             </h:form>
         </p:dialog>
 

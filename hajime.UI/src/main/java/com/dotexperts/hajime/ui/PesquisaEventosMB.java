@@ -50,7 +50,8 @@ public class PesquisaEventosMB implements Serializable {
     public void init() {   
         this.campeonatos = campeonatoejb.listAll();
         this.federacoes = federacaoejb.listAll();
-        
+        this.delegacias = delegaciaejb.listAll();
+        this.unitCampeonato = new Campeonato();
     }
   
     public List<Campeonato> getCampeonatos() {
