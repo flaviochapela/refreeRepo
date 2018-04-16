@@ -18,6 +18,8 @@ import javax.faces.bean.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -27,7 +29,7 @@ import javax.faces.event.ActionEvent;
  * @author admprodesp
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class PesquisaEventosMB implements Serializable {
 
     @EJB
@@ -70,16 +72,18 @@ public class PesquisaEventosMB implements Serializable {
         return federacoes;
     }
 
-    public void editar(Campeonato campeonato) throws IOException {
-      
+    public void salvar() {
+        try {
+              this.campeonatoejb.insert(unitCampeonato);
+              addMessage("Salvo com Sucesso!", FacesMessage.SEVERITY_INFO);
+        } catch (Exception e) {
+            addMessage("Erro ao salvar :o(", FacesMessage.SEVERITY_FATAL);
+        }
     }
 
-    public void buttonAction(ActionEvent actionEvent) {
-        addMessage("Welcome to Primefaces!!");
-    }
-
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, summary, null);
+   
+    public void addMessage(String summary, Severity type) {
+        FacesMessage message = new FacesMessage(type, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     

@@ -12,7 +12,9 @@
     <h:body>
         <h:outputStylesheet name="css/default.css" />
         <h:form id="form1">
-
+            <p:commandButton  oncomplete="PF('campeonatoDialog').show()" value="Novo Campeonato"  update=":form3" >
+                <f:setPropertyActionListener value="#{pesquisaEventosMB.unitCampeonato}" target="#{pesquisaEventosMB.unitCampeonato}" />
+            </p:commandButton>      
             <p:dataTable value="#{pesquisaEventosMB.campeonatos}" var="campeonato" id="dtCampeonatos"  widgetVar="campeonatoTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
                          filteredValue="#{pesquisaEventosMB.filteredcampeonatos}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
                 <f:facet name="header" >
@@ -68,6 +70,19 @@
                             <f:selectItem itemLabel="Escolha uma" itemValue="" />
                             <f:selectItems  var="delegacia" value="#{pesquisaEventosMB.delegacias}" itemLabel="#{delegacia.delegacia}" />
                         </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-3">
+                        <p:outputLabel for="txtData" value="Data:" />
+                        <p:calendar id="txtData" value="#{pesquisaEventosMB.unitCampeonato.data}" pattern="dd/MM/yyyy" mask="true" />
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-5">
+                    <p:commandButton value="Salvar"
+                        update=":form1"
+                        ajax="false"
+                        action="#{pesquisaEventosMB.salvar()}"
+                        onclick="PF('campeonatoDialog').hide()"></p:commandButton>      
                     </div>
                 </div>
             </h:form>
