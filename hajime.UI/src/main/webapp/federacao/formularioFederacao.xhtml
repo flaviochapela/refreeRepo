@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>hajime!</title>
+    </h:head>
+    <h:body>
+       <h:outputStylesheet name="css/default.css" />
+       <h:form id="form1">
+            <p:commandButton  action="#{federacaoMB.newItem}" value="Nova Federacao"  update=":form2" oncomplete="PF('frmDialog').show()"  >
+            
+            </p:commandButton>      
+            <p:dataTable value="#{federacaoMB.listItens}" var="federacao" id="dtItens"  widgetVar="itensTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
+                         filteredValue="#{federacaoMB.filteredItens}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
+                <f:facet name="header" >
+                    Federações                  
+                </f:facet>
+                <p:column  filterBy="#{federacao.federacao}" ariaHeaderText="" headerText="Federação" width="80%" resizable="true" filterMatchMode="contains"> 
+                    <h:outputText value="#{federacao.federacao}"/>
+                </p:column>    
+                <p:column filterBy="#{federacao.estado}" headerText="Nome" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{federacao.estado}"/>
+                </p:column> 
+                <p:column headerText="Ações" width="10%">                    
+                    <p:commandButton action="#{federacaoMB.setItem(federacao)}"  oncomplete="PF('frmDialog').show()"  icon="ui-icon-pencil" update="frmDialog" >
+                    </p:commandButton> 
+                    <p:commandButton action="#{federacaoMB.redirect('../delegacia/formularioDelegacia.xhtml')}"  icon="fa fa-fw fa-bank" value="Delegacias" ajax="false" >
+                    </p:commandButton>  
+                </p:column>  
+            </p:dataTable>
+        </h:form>
+        <p:dialog header="Dados Federacao" id="frmDialog" widgetVar="frmDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
+            <h:form id="form2">
+                <h:messages /> 
+                <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <h:outputLabel value="Federacao:" for="txtNome"/>
+                        <p:inputText id="txtNome" value="#{federacaoMB.item.federacao}" size="100" />
+                    </div>
+                </div>
+                     <div class="ui-g">
+                    <div class="ui-g-12">
+                        <h:outputLabel value="Estado:" for="txtEstado"/>
+                        <p:inputText id="txtEstado" value="#{federacaoMB.item.estado}" size="2" />
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-5">
+                        <p:commandButton  action="#{federacaoMB.saveItem}" value="Salvar"  update=":form1"  oncomplete="PF('frmDialog').hide()"  >
+                        </p:commandButton>   
+                    </div>
+                </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>hajime!</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/default.css" />
+        <h:form id="form1">
+            <p:commandButton  action="#{associacaoMB.newItem}" value="Nova Associação"  update=":form2" oncomplete="PF('frmDialog').show()"  >
+
+            </p:commandButton>      
+            <p:dataTable value="#{associacaoMB.listItens}" var="associacao" id="dtItens"  widgetVar="itensTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
+                         filteredValue="#{associacaoMB.filteredItens}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
+                <f:facet name="header" >
+                    Associações                  
+                </f:facet>
+                <p:column  filterBy="#{associacaoMB.item.nome}" ariaHeaderText="" headerText="Associação" width="80%" resizable="true" filterMatchMode="contains"> 
+                    <h:outputText value="#{associacaoMB.item.nome}"/>
+                </p:column>    
+                <p:column filterBy="#{associacaoMB.item.cidade}" headerText="Cidade" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacaoMB.item.cidade}"/>
+                </p:column> 
+                <p:column filterBy="#{associacaoMB.item.iddelegacia.delegacia}" headerText="Delegacia" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacaoMB.item.iddelegacia.delegacia}"/>
+                </p:column> 
+                <p:column filterBy="#{associacaoMB.item.iddelegacia.idFederacao.federacao}" headerText="Federação" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacaoMB.item.iddelegacia.idFederacao.federacao}"/>
+                </p:column> 
+                <p:column headerText="Ações" width="10%">                    
+                    <p:commandButton action="#{associacaoMB.setItem(associacao)}"  oncomplete="PF('frmDialog').show()"  icon="ui-icon-pencil" update="frmDialog" >
+                    </p:commandButton>                    
+                </p:column>  
+            </p:dataTable>
+        </h:form>
+        <p:dialog header="Dados Associacao" id="frmDialog" widgetVar="frmDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
+            <h:form id="form2">
+                <h:messages /> 
+                <p:panel>
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <h:outputLabel value="Associacao" for="txtNome"/>
+                            <p:inputText id="txtNome" value="#{associacaoMB.item.nome}" size="100" />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <h:outputLabel value="Cidade" for="txtCidade"/>
+                            <p:inputText id="txtCidade" value="#{associacaoMB.item.cidade}" size="2" />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p:multiSelectListbox value="#{associacaoMB.item.iddelegacia.id}" effect="slide" header="Categories" showHeaders="true">
+                                <f:selectItems value="#{multiSelectView.categories}" />
+                            </p:multiSelectListbox>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-5">
+                            <p:commandButton  action="#{federacaoMB.saveItem}" value="Salvar"  update=":form1"  oncomplete="PF('frmDialog').hide()"  >
+                            </p:commandButton>   
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

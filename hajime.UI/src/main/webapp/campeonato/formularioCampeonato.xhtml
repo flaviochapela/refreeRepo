@@ -1,12 +1,91 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
     <h:head>
-        <title>Facelet Title</title>
+        <title>hajime!</title>
     </h:head>
     <h:body>
-       Editar Campeonato
+        <h:outputStylesheet name="css/default.css" />
+        <h:form id="form1">
+            <p:commandButton  action="#{campeonatoMB.newItem}" value="Novo Campeonato"  update="form1" >
+            
+            </p:commandButton>      
+            <p:dataTable value="#{campeonatoMB.listItens}" var="campeonato" id="dtCampeonatos"  widgetVar="campeonatoTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
+                         filteredValue="#{campeonatoMB.filteredItens}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
+                <f:facet name="header" >
+                    Campeonatos                  
+                </f:facet>
+                <p:column  headerText="Federação" width="10%" resizable="true"> 
+                    <h:outputText value="#{campeonato.iddelegacia.idFederacao.federacao}"/>
+                </p:column>    
+                <p:column filterBy="#{campeonato.nome}" headerText="Nome" width="30%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{campeonato.nome}"/>
+                </p:column> 
+                <p:column headerText="Data" width="10%" resizable="true">
+                    <h:outputText value="#{campeonato.data}"/>
+                </p:column>        
+                <p:column headerText="Cidade" width="15%" resizable="true">
+                    <h:outputText value="#{campeonato.cidade}"/>
+                </p:column>
+                <p:column headerText="Local" width="15%" resizable="true">
+                    <h:outputText value="#{campeonato.local}"/>
+                </p:column> 
+                <p:column headerText="Editar">                    
+                    <p:commandButton action="#{campeonatoMB.setItem(campeonato)}"  oncomplete="PF('campeonatoDialog').show()"  icon="ui-icon-pencil" update=":campeonatoDialog" >
+                    </p:commandButton>                    
+                </p:column>  
+            </p:dataTable>
+        </h:form>
+        <p:dialog header="Dados Campeonato" id="campeonatoDialog" widgetVar="campeonatoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
+            <h:form>
+                <h:messages /> 
+                <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12">  
+                        <h:outputLabel value="Nome:" for="txtNome"/>
+                        <p:inputText id="txtNome" value="#{campeonatoMB.item.nome}" size="200" maxlength="200" />
+                    </div>                        
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-3">
+                        <h:outputLabel value="Local:" for="txtLocal"/>
+                        <p:inputText id="txtLocal" value="#{campeonatoMB.item.local}" />
+                    </div>
+                    <div class="ui-g-3">
+                        <h:outputLabel value="Cidade:" for="txtCidade"/>
+                        <p:inputText id="txtCidade" value="#{campeonatoMB.item.cidade}" />
+                    </div>
+                    <div class="ui-g-3">
+                        <h:outputLabel value="Areas:" for="txtArea"/>
+                        <p:inputText id="txtArea" value="#{pesquisaEventosMB.item.areas}" />
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-3">
+                        <p:selectOneMenu id="ddDelegacia" value="#{campeonatoMB.item.iddelegacia.id}" effect="fold" >
+                            <f:selectItem itemLabel="Escolha uma" itemValue="" />
+                            <f:selectItems  var="delegacia" value="#{campeonatoMB.delegacias}" itemLabel="#{delegacia.delegacia}" itemValue="#{delegacia.id}" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-3">
+                        <p:outputLabel for="txtData" value="Data:" />
+                        <p:calendar id="txtData" value="#{campeonatoMB.item.data}" pattern="dd/MM/yyyy" mask="true" />
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-5">
+                        <p:commandButton  action="#{campeonatoMB.saveItem}" value="Salvar"  update=":form1"  oncomplete="PF('campeonatoDialog').hide()"  >
+            
+                    </p:commandButton>   
+                    </div>
+                </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 
