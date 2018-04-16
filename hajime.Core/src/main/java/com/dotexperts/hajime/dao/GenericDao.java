@@ -44,10 +44,10 @@ public class GenericDao<T extends GenericModel> {
 
         if (t.getId() == null) {
             em.persist(t);
+            em.flush();
         } else {
             t = em.merge(t);
-        }
-        em.close();
+        }        
         return t;
     }
 
