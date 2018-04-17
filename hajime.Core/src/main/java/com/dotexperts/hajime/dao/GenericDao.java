@@ -6,11 +6,14 @@
 package com.dotexperts.hajime.dao;
 
 import com.dotexperts.hajime.model.GenericModel;
+import java.util.Hashtable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Parameter;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -18,12 +21,11 @@ import javax.persistence.TypedQuery;
  * @author admprodesp
  * @param <T>
  */
-
 public class GenericDao<T extends GenericModel> {
 
     @PersistenceContext
     EntityManager em;
-    
+
     protected Class<T> entity;
 
     public GenericDao() {
@@ -31,7 +33,7 @@ public class GenericDao<T extends GenericModel> {
 
     public GenericDao(Class<T> entity) {
         this.em = getEntityManager();
-        this.entity = entity;        
+        this.entity = entity;
     }
 
     public T get(int id) {
@@ -47,7 +49,7 @@ public class GenericDao<T extends GenericModel> {
             em.flush();
         } else {
             t = em.merge(t);
-        }        
+        }
         return t;
     }
 
@@ -60,6 +62,20 @@ public class GenericDao<T extends GenericModel> {
     public List<T> listAll() {
         TypedQuery<T> query = em.createQuery(String.format("Select x FROM %s x", entity.getName()), entity);
         return query.getResultList();
+    }
+
+    public List<T> byNamedQuery(String namedQuery, Hashtable<String, String> params) {
+        List<T> t;
+        Query q = em.createNamedQuery(namedQuery);
+
+        params.forEach((a, b)
+                -> {
+            q.setParameter(a, b);
+        });
+
+        t = (List<T>) q.getResultList();
+
+        return t;
     }
 
     public EntityManager getEntityManager() {

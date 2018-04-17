@@ -16,4 +16,5 @@ import javax.ejb.Stateless;
 @Stateless
 public class DelegaciaEJB extends baseEJB<Delegacia> implements iDelegacia{
     
+    
 }
