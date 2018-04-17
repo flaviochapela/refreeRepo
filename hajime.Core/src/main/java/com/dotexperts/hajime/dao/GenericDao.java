@@ -37,34 +37,41 @@ public class GenericDao<T extends GenericModel> {
     }
 
     public T get(int id) {
+        this.em = getEntityManager();
         T t;
         t = em.find(entity, id);
         return t;
     }
 
     public T save(T t) {
-
+        this.em = getEntityManager();
+        
         if (t.getId() == null) {
             em.persist(t);
-            em.flush();
         } else {
             t = em.merge(t);
         }
+        em.flush();
         return t;
     }
 
     public void remove(int id) {
+        this.em = getEntityManager();
         T t;
         t = get(id);
         em.remove(t);
     }
 
     public List<T> listAll() {
+        this.em = getEntityManager();
         TypedQuery<T> query = em.createQuery(String.format("Select x FROM %s x", entity.getName()), entity);
+        em.flush();
         return query.getResultList();
     }
 
     public List<T> byNamedQuery(String namedQuery, Hashtable<String, String> params) {
+        this.em = getEntityManager();
+        
         List<T> t;
         Query q = em.createNamedQuery(namedQuery);
 
@@ -80,7 +87,7 @@ public class GenericDao<T extends GenericModel> {
 
     public EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("hajime.PU");
-        EntityManager entityManager = factory.createEntityManager();
+        EntityManager entityManager = factory.createEntityManager();        
         return entityManager;
     }
 
