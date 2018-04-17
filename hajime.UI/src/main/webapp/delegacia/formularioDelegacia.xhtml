@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -26,7 +27,9 @@
                 </p:column> 
                 <p:column headerText="Ações" width="10%">                    
                     <p:commandButton action="#{delegaciaMB.setItem(delegacia)}"  oncomplete="PF('frmDialog').show()"  icon="ui-icon-pencil" update="frmDialog" >
-                    </p:commandButton>                    
+                    </p:commandButton> 
+                     <p:commandButton action="#{federacaoMB.redirect('../associacao/formularioAssociacao.xhtml')}"  icon="fa fa-fw fa-bank" value="Associações" ajax="false" >
+                    </p:commandButton>  
                 </p:column>  
             </p:dataTable>
         </h:form>
@@ -36,12 +39,7 @@
                 <p:panel>
                 <div class="ui-g">
                     <div class="ui-g-12">  
-                            <h:outputLabel value="Federação: " for="ddFederacao"/>
-                            <p:selectOneMenu id="ddFederacao" value="#{delegaciaMB.item.idFederacao.id}" effect="fold" >
-                            <f:selectItem itemLabel="Escolha uma" itemValue="" />
-                            <f:selectItems  var="federacao" value="#{delegaciaMB.federacoes}" itemLabel="#{federacao.federacao}" itemValue="#{federacao.id}" />
-                        </p:selectOneMenu>
-                    
+                        <h:outputLabel value="#{delegaciaMB.item.idFederacao.federacao}" />
                     </div>                        
                 </div>
                 <div class="ui-g">

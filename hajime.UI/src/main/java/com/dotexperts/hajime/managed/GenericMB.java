@@ -86,7 +86,7 @@ public abstract class GenericMB<T extends GenericModel> {
     
     public void redirect(String url) throws IOException
     {
-         FacesContext.getCurrentInstance().getExternalContext().redirect(url); 
+         FacesContext.getCurrentInstance().getExternalContext().redirect(String.format("%s?id=%s", url, null)); 
 //        StringBuilder sb = new StringBuilder();
 //        
 //        for (int i = 0; i < params.length; i++) {

@@ -18,17 +18,17 @@
                 <f:facet name="header" >
                     Associações                  
                 </f:facet>
-                <p:column  filterBy="#{associacaoMB.item.nome}" ariaHeaderText="" headerText="Associação" width="80%" resizable="true" filterMatchMode="contains"> 
-                    <h:outputText value="#{associacaoMB.item.nome}"/>
+                <p:column  filterBy="#{associacao.nome}" ariaHeaderText="" headerText="Associação" width="80%" resizable="true" filterMatchMode="contains"> 
+                    <h:outputText value="#{associacao.nome}"/>
                 </p:column>    
-                <p:column filterBy="#{associacaoMB.item.cidade}" headerText="Cidade" width="20%" resizable="true" filterMatchMode="contains" >
-                    <h:outputText value="#{associacaoMB.item.cidade}"/>
+                <p:column filterBy="#{associacao.cidade}" headerText="Cidade" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacao.cidade}"/>
                 </p:column> 
-                <p:column filterBy="#{associacaoMB.item.iddelegacia.delegacia}" headerText="Delegacia" width="20%" resizable="true" filterMatchMode="contains" >
-                    <h:outputText value="#{associacaoMB.item.iddelegacia.delegacia}"/>
+                <p:column filterBy="#{associacao.iddelegacia.delegacia}" headerText="Delegacia" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacao.iddelegacia.delegacia}"/>
                 </p:column> 
-                <p:column filterBy="#{associacaoMB.item.iddelegacia.idFederacao.federacao}" headerText="Federação" width="20%" resizable="true" filterMatchMode="contains" >
-                    <h:outputText value="#{associacaoMB.item.iddelegacia.idFederacao.federacao}"/>
+                <p:column filterBy="#{associacao.iddelegacia.idFederacao.federacao}" headerText="Federação" width="20%" resizable="true" filterMatchMode="contains" >
+                    <h:outputText value="#{associacao.iddelegacia.idFederacao.federacao}"/>
                 </p:column> 
                 <p:column headerText="Ações" width="10%">                    
                     <p:commandButton action="#{associacaoMB.setItem(associacao)}"  oncomplete="PF('frmDialog').show()"  icon="ui-icon-pencil" update="frmDialog" >
@@ -53,15 +53,8 @@
                         </div>
                     </div>
                     <div class="ui-g">
-                        <div class="ui-g-12">
-                            <p:multiSelectListbox value="#{associacaoMB.item.iddelegacia.id}" effect="slide" header="Categories" showHeaders="true">
-                                <f:selectItems value="#{multiSelectView.categories}" />
-                            </p:multiSelectListbox>
-                        </div>
-                    </div>
-                    <div class="ui-g">
                         <div class="ui-g-5">
-                            <p:commandButton  action="#{federacaoMB.saveItem}" value="Salvar"  update=":form1"  oncomplete="PF('frmDialog').hide()"  >
+                            <p:commandButton  action="#{associacaoMB.saveItem}" value="Salvar"  update=":form1"  oncomplete="PF('frmDialog').hide()"  >
                             </p:commandButton>   
                         </div>
                     </div>
