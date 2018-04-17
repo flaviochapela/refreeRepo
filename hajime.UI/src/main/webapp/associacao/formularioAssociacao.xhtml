@@ -16,7 +16,7 @@
             <p:dataTable value="#{associacaoMB.listItens}" var="associacao" id="dtItens"  widgetVar="itensTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
                          filteredValue="#{associacaoMB.filteredItens}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
                 <f:facet name="header" >
-                    Associações                  
+                    Associações <p:outputLabel value="#{associacaoMB.delegacia.delegacia}"/>                  
                 </f:facet>
                 <p:column  filterBy="#{associacao.nome}" ariaHeaderText="" headerText="Associação" width="80%" resizable="true" filterMatchMode="contains"> 
                     <h:outputText value="#{associacao.nome}"/>
@@ -49,7 +49,7 @@
                     <div class="ui-g">
                         <div class="ui-g-12">
                             <h:outputLabel value="Cidade" for="txtCidade"/>
-                            <p:inputText id="txtCidade" value="#{associacaoMB.item.cidade}" size="2" />
+                            <p:inputText id="txtCidade" value="#{associacaoMB.item.cidade}" size="100" />
                         </div>
                     </div>
                     <div class="ui-g">

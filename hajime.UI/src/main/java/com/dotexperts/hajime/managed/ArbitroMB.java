@@ -12,11 +12,16 @@ import com.dotexperts.hajime.model.Arbitro;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author admprodesp
  */
+@ManagedBean
+@ViewScoped
 public class ArbitroMB extends GenericMB<Arbitro> implements Serializable {
 
     private static final long serialVersionUID = 1L;

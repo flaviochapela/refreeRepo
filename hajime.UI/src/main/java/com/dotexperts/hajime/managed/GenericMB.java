@@ -41,6 +41,7 @@ public abstract class GenericMB<T extends GenericModel> {
             {
                 this.listItens.add(item);
             }
+           // allItens();
             addMessage("Salvo com sucesso!");
         } catch (Exception e) {
             addMessage(String.format("Erro ao Salvar: %s", e.getMessage()));

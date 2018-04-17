@@ -11,13 +11,13 @@
     <h:body>
         <h:outputStylesheet name="css/default.css" />
         <h:form id="form1">
-            <p:commandButton  action="#{delegaciaMB.newItem}" value="Nova Delegacia"  update="form1" >
+            <p:commandButton  action="#{delegaciaMB.newItem}" value="Nova Delegacia"  update=":form2" oncomplete="PF('frmDialog').show()"  >
             
             </p:commandButton>      
             <p:dataTable value="#{delegaciaMB.listItens}" var="delegacia" id="dtItens"  widgetVar="itensTable" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum registro encontrado"
                          filteredValue="#{delegaciaMB.filteredItens}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" currentPageReportTemplate="( {currentPage} de {totalPages} )">
                 <f:facet name="header" >
-                    Delegacias                  
+                    Delegacias  <p:outputLabel value="#{delegaciaMB.federacao.federacao}"/>                  
                 </f:facet>
                 <p:column  headerText="Federação" width="10%" resizable="true"> 
                     <h:outputText value="#{delegacia.idFederacao.federacao}"/>
@@ -34,7 +34,7 @@
             </p:dataTable>
         </h:form>
         <p:dialog header="Dados Delegacia" id="frmDialog" widgetVar="frmDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="80%">
-            <h:form>
+            <h:form id="form2">
                 <h:messages /> 
                 <p:panel>
                 <div class="ui-g">

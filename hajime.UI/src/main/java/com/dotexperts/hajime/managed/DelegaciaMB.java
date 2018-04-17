@@ -11,11 +11,10 @@ import com.dotexperts.hajime.model.Delegacia;
 import com.dotexperts.hajime.model.Federacao;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
