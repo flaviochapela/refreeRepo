@@ -40,7 +40,7 @@ public class DelegaciaMB extends GenericMB<Delegacia> implements Serializable {
     @PostConstruct
     public void init() {
         this.ejb = ejbdelegacia;
-        this.federacao = ejbfederecao.get(1);
+        this.federacao = ejbfederecao.get(Integer.parseInt(getParameter("id")));
         this.setListItens(new ArrayList<>());
         this.getListItens().addAll(this.federacao.getDelegaciaCollection());  
         newItem();        

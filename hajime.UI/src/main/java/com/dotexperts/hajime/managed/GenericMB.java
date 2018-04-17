@@ -9,6 +9,7 @@ import com.dotexperts.hajime.interfaces.iBase;
 import com.dotexperts.hajime.model.GenericModel;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.print.DocFlavor;
@@ -84,9 +85,9 @@ public abstract class GenericMB<T extends GenericModel> {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
-    public void redirect(String url) throws IOException
+    public void redirect(String url, GenericModel o) throws IOException
     {
-         FacesContext.getCurrentInstance().getExternalContext().redirect(String.format("%s?id=%s", url, null)); 
+         FacesContext.getCurrentInstance().getExternalContext().redirect(String.format("%s?id=%s", url, o.getId())); 
 //        StringBuilder sb = new StringBuilder();
 //        
 //        for (int i = 0; i < params.length; i++) {
@@ -94,6 +95,13 @@ public abstract class GenericMB<T extends GenericModel> {
 //        }
 //        
 //        return url + "?faces-redirect=true&id=" + this.item.getId(); 
+    }
+    
+    public String getParameter(String param)
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        return  params.get(param);
     }
 
 }

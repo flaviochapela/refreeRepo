@@ -12,6 +12,7 @@ import com.dotexperts.hajime.model.Associacao;
 import com.dotexperts.hajime.model.Delegacia;
 import com.dotexperts.hajime.model.Federacao;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -37,21 +38,32 @@ public class AssociacaoMB extends GenericMB<Associacao> implements Serializable 
     @EJB
     private iAssociacao ejbassociacao;
     
-    private List<Delegacia> delegacias;
-    
+    private Delegacia delegacia;
+
     private List<Federacao> federacoes;
     
     @PostConstruct
     public void init() {
+        
+        this.delegacia = ejbdelegacia.get(Integer.parseInt(getParameter("id")));
         this.ejb = ejbassociacao;
-        allItens();
+        this.setListItens(new ArrayList<>());
+        this.getListItens().addAll(this.delegacia.getAssociacaoCollection());
         newItem();        
     }    
 
     @Override
     public void newItem() {
         this.setItem(new Associacao());
-        this.getItem().setIddelegacia(new Delegacia());
-        this.getItem().getIddelegacia().setIdFederacao(new Federacao());
+        this.getItem().setIddelegacia(this.delegacia);
+        this.getItem().getIddelegacia().setIdFederacao(this.delegacia.getIdFederacao());
+    }
+    
+    public Delegacia getDelegacia() {
+        return delegacia;
+    }
+
+    public void setDelegacia(Delegacia delegacia) {
+        this.delegacia = delegacia;
     }
 }
