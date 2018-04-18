@@ -35,8 +35,9 @@
                     <h:outputText value="#{campeonato.local}"/>
                 </p:column> 
                 <p:column headerText="Editar">                    
-                    <p:commandButton action="#{campeonatoMB.setItem(campeonato)}"  oncomplete="PF('campeonatoDialog').show()"  icon="ui-icon-pencil" update=":campeonatoDialog" >
-                    </p:commandButton>                    
+                    <p:commandButton action="#{campeonatoMB.setItem(campeonato)}"  oncomplete="PF('campeonatoDialog').show()"  icon="ui-icon-pencil" update=":campeonatoDialog" />
+                    <p:commandButton action="#{campeonatoMB.redirect('../convocacao/formularioConvocacao.xhtml', campeonato)}"  icon="fa fa-fw fa-bank" value="Convocar" ajax="false" />
+                    <p:commandButton action="#{campeonatoMB.redirect('../campeonato/formularioAreas.xhtml', campeonato)}"  icon="fa fa-fw fa-bank" value="Areas" ajax="false" />
                 </p:column>  
             </p:dataTable>
         </h:form>
@@ -47,7 +48,7 @@
                 <div class="ui-g">
                     <div class="ui-g-12">  
                         <h:outputLabel value="Nome:" for="txtNome"/>
-                        <p:inputText id="txtNome" value="#{campeonatoMB.item.nome}" size="200" maxlength="200" />
+                        <p:inputText id="txtNome" value="#{campeonatoMB.item.nome}" size="100" maxlength="200" />
                     </div>                        
                 </div>
                 <div class="ui-g">

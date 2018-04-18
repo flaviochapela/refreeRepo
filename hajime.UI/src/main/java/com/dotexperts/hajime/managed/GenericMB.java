@@ -34,7 +34,7 @@ public abstract class GenericMB<T extends GenericModel> {
         this.listItens = this.ejb.listAll();
     }
 
-    public void saveItem() throws Exception {
+    public void saveItem()  {
         try {            
             this.ejb.insert(item);            
             if(!this.listItens.contains(item))
@@ -48,7 +48,7 @@ public abstract class GenericMB<T extends GenericModel> {
         }
     }
 
-    public void deleteItem() throws Exception {
+    public void deleteItem() {
         try {
             this.ejb.remove(item.getId());
             addMessage("Removido com sucesso!");

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>hajime!</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/default.css" />     
+        <script type="text/javascript">
+            function handleDrop(event, ui) {
+                var droppedCar = ui.draggable;
+                droppedCar.fadeOut('fast');
+            }
+        </script>
+        <h:form id="form1">
+
+            <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 300px;" >
+                <p:dataGrid id="arbitrosDisponiveis" var="arbitro" value="#{convocacaoMB.arbitros}" columns="1" >
+                    <p:panel id="pnl" header="#{arbitro.nome}" style="text-align:center">
+                        <div class="ui-g">
+                            <div class="ui-g-3" align="left"> <p:graphicImage name="images/arbitros/#{arbitro.id}.jpg" height="50" width="50"  /></div>
+                            <div class="ui-g-9 ui-g-nopad">
+                                <div class="ui-g-12" align="left">
+                                    <p:graphicImage name="images/relatorio/grad_conv_#{arbitro.categoria}.png"/>
+                                </div>
+                                <div class="ui-g-12" align="left">
+                                    <p:outputLabel  value="${arbitro.idassociacao.nome}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </p:panel>
+                    <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                </p:dataGrid>
+            </p:fieldset>
+            <p:fieldset id="selectedArbitros" legend="Convocados" style="margin-top:20px">
+                <p:outputPanel id="dropArea">
+                    <h:outputText value="!!!Drop here!!!" rendered="#{convocacaoMB.convocados.size() ==0}" style="font-size:24px;" />
+                    <p:dataTable id="selectedArbitrosTable" var="convocado" value="#{convocacaoMB.convocados}" rendered="#{not empty convocacaoMB.convocados}">
+                        <p:column headerText="Nome">
+                            <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
+                        </p:column>
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{convocado.idarbitro.nome}" />
+                        </p:column>
+                        <p:column headerText="Categoria">
+                            <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
+                        </p:column>
+                        <p:column headerText="Associacão">
+                            <h:outputText value="#{convocado.idarbitro.idassociacao.nome}" />
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:commandButton  icon="ui-icon-serach" update=":form1:dropArea :form1:arbitrosDisponiveis">
+                            <f:actionListener binding="#{convocacaoMB.removeConvocacao(convocado)}"  />
+                        </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:fieldset>
+            <p:droppable for="selectedArbitros" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="arbitrosDisponiveis"  onDrop="handleDrop">
+                <p:ajax listener="#{convocacaoMB.onArbitroDrop}" update="dropArea arbitrosDisponiveis" />
+            </p:droppable>
+
+        </h:form>
+    </h:body>
+</html>
+

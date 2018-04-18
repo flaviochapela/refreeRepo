@@ -5,13 +5,18 @@
  */
 package com.dotexperts.hajime.managed;
 
+import com.dotexperts.enummerators.EnumSituacaoConvocacao;
+import com.dotexperts.enummerators.EnumTipoConvocacao;
 import com.dotexperts.hajime.interfaces.iCampeonato;
 import com.dotexperts.hajime.interfaces.iDelegacia;
 import com.dotexperts.hajime.interfaces.iFederacao;
+import com.dotexperts.hajime.model.Arbitro;
 import com.dotexperts.hajime.model.Campeonato;
+import com.dotexperts.hajime.model.Campeonatoarbitro;
 import com.dotexperts.hajime.model.Delegacia;
 import com.dotexperts.hajime.model.Federacao;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -39,14 +44,18 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
     private static final long serialVersionUID = 1L;
     private List<Delegacia> delegacias;
     private List<Federacao> federacoes;
+    private List<Arbitro> arbitros;
+    private List<Campeonatoarbitro> convocados;
 
     @PostConstruct
     public void init() {
         this.ejb = ejbCampeonato;
         allItens();
         newItem();
+        this.convocados = new ArrayList<>();
         this.delegacias = ejbdelegacia.listAll();
     }
+  
 
     @Override
     public void newItem() {
@@ -69,4 +78,14 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
     public void setFederacoes(List<Federacao> federacoes) {
         this.federacoes = federacoes;
     }
+    
+    public List<Arbitro> getArbitros() {
+        return arbitros;
+    }
+
+    public void setArbitros(List<Arbitro> arbitros) {
+        this.arbitros = arbitros;
+    }
+    
+  
 }
