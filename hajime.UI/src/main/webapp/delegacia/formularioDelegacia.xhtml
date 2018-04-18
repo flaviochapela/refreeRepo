@@ -28,8 +28,10 @@
                 <p:column headerText="Ações" width="10%">                    
                     <p:commandButton action="#{delegaciaMB.setItem(delegacia)}"  oncomplete="PF('frmDialog').show()"  icon="ui-icon-pencil" update="frmDialog" >
                     </p:commandButton> 
-                     <p:commandButton action="#{federacaoMB.redirect('../associacao/formularioAssociacao.xhtml', delegacia)}"  icon="fa fa-fw fa-bank" value="Associações" ajax="false" >
-                    </p:commandButton>  
+                     <p:commandButton action="#{delegaciaMB.redirect('../associacao/formularioAssociacao.xhtml', delegacia)}"  icon="fa fa-fw fa-bank" value="Associações" ajax="false" >
+                    </p:commandButton>
+                    <p:commandButton action="#{delegaciaMB.redirect('../arbitro/formularioArbitro.xhtml', delegacia)}"  icon="fa fa-fw fa-bank" value="Arbitros" ajax="false" >
+                    </p:commandButton>
                 </p:column>  
             </p:dataTable>
         </h:form>
