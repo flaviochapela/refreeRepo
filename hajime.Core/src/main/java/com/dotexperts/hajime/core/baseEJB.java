@@ -46,8 +46,9 @@ public abstract class baseEJB<T extends GenericModel> implements iBase<T> {
     }
 
     @Override
-    public int remove(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void remove(int id) throws Exception {
+        GenericDao dao = new GenericDao(mytype());
+        dao.remove(id);
     }
 
     @Override

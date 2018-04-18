@@ -60,8 +60,9 @@ public class GenericDao<T extends GenericModel> {
     public void remove(int id) {
         this.em = getEntityManager();
         T t;
-        t = get(id);
+        t = get(id);        
         em.remove(t);
+        em.flush();
     }
 
     public List<T> listAll() {

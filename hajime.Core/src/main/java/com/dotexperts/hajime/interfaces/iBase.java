@@ -16,6 +16,6 @@ import java.util.List;
 public interface iBase<T> {
     public T get(int id);
     public T insert(T obj) throws Exception;    
-    public int remove(int id) throws Exception;
+    public void remove(int id) throws Exception;
     public List<T> listAll();
 }
