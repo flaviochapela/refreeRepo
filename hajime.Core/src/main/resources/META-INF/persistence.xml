@@ -3,6 +3,7 @@
   <persistence-unit name="hajime.PU" transaction-type="JTA">
     <jta-data-source>jdbc/hajime</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
     <properties/>
   </persistence-unit>
 </persistence>

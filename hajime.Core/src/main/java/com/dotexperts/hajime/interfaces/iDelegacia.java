@@ -5,7 +5,9 @@
  */
 package com.dotexperts.hajime.interfaces;
 
+import com.dotexperts.hajime.model.Arbitro;
 import com.dotexperts.hajime.model.Delegacia;
+import java.util.List;
 import javax.ejb.Local;
 
 /**

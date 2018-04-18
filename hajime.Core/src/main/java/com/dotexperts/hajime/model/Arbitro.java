@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Arbitro.findByIdarbitro", query = "SELECT a FROM Arbitro a WHERE a.idarbitro = :idarbitro")
     , @NamedQuery(name = "Arbitro.findByNome", query = "SELECT a FROM Arbitro a WHERE a.nome = :nome")
     , @NamedQuery(name = "Arbitro.findByCategoria", query = "SELECT a FROM Arbitro a WHERE a.categoria = :categoria")
-    , @NamedQuery(name = "Arbitro.findByCoordenador", query = "SELECT a FROM Arbitro a WHERE a.coordenador = :coordenador")})
+    , @NamedQuery(name = "Arbitro.findByCoordenador", query = "SELECT a FROM Arbitro a WHERE a.coordenador = :coordenador")
+    , @NamedQuery(name = "Arbitro.findByDelegacia", query = "SELECT a FROM Arbitro a Join a.idassociacao b WHERE b.iddelegacia.idDelegacia = :delegacia")})
 public class Arbitro extends GenericModel implements Serializable {
 
     private static final long serialVersionUID = 1L;

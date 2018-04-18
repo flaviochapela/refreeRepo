@@ -39,7 +39,9 @@ public class GenericDao<T extends GenericModel> {
     public T get(int id) {
         this.em = getEntityManager();
         T t;
+        em.flush();
         t = em.find(entity, id);
+        em.refresh(t);
         return t;
     }
 

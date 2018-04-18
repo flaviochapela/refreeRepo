@@ -6,6 +6,7 @@
 package com.dotexperts.hajime.interfaces;
 
 import com.dotexperts.hajime.model.Arbitro;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +15,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface iArbitro extends iBase<Arbitro> {
-    
+     public List<Arbitro> getDelegaciaArbitros(int idDelegacia);
 }

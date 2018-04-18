@@ -6,7 +6,9 @@
 package com.dotexperts.hajime.core;
 
 import com.dotexperts.hajime.interfaces.iDelegacia;
+import com.dotexperts.hajime.model.Arbitro;
 import com.dotexperts.hajime.model.Delegacia;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -15,6 +17,6 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class DelegaciaEJB extends baseEJB<Delegacia> implements iDelegacia{
-    
-    
+
+   
 }

@@ -5,8 +5,10 @@
  */
 package com.dotexperts.hajime.core;
 
+import com.dotexperts.hajime.dao.ArbitroDAO;
 import com.dotexperts.hajime.interfaces.iArbitro;
 import com.dotexperts.hajime.model.Arbitro;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -15,5 +17,15 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ArbitroEJB extends baseEJB<Arbitro> implements iArbitro {
+
+    @Override
+    public List<Arbitro> getDelegaciaArbitros(int idDelegacia) {
+        try {
+            ArbitroDAO dao = new ArbitroDAO();
+            return dao.getArbitrosbyDelegacia(idDelegacia);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }
