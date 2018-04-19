@@ -9,6 +9,15 @@
     </h:head>
     <h:body>
         <h:outputStylesheet name="css/default.css" />
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">Teste</span>
+                    <p:inputText />
+                </div>
+            </div>
+        </div>
+
         <h:form id="form1">
             <p:commandButton  action="#{federacaoMB.newItem}" value="Nova Federacao"  update=":form2" oncomplete="PF('frmDialog').show()"  >
 
@@ -36,16 +45,20 @@
             <h:form id="form2">
                 <h:messages /> 
                 <p:panel>
-                    <div class="ui-g">
-                        <div class="ui-g-12">
-                            <h:outputLabel value="Federacao:" for="txtNome"/>
-                            <p:inputText id="txtNome" value="#{federacaoMB.item.federacao}" size="100" />
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">Federacao</span>
+                                <p:inputText value="#{federacaoMB.item.federacao}"  placeholder="nome" />
+                            </div>
                         </div>
                     </div>
                     <div class="ui-g">
                         <div class="ui-g-12">
-                            <h:outputLabel value="Estado:" for="txtEstado"/>
-                            <p:inputText id="txtEstado" value="#{federacaoMB.item.estado}" size="2" />
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">Estado</span>
+                                <p:inputText id="txtEstado" value="#{federacaoMB.item.estado}" size="2" />
+                            </div>
                         </div>
                     </div>
                     <div class="ui-g">

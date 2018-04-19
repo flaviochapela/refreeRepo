@@ -1,12 +1,88 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>hajime!</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:outputStylesheet name="css/default.css" />
+        <script type="text/javascript">
+            function handleDrop(event, ui) {
+                var droppedCar = ui.draggable;
+                droppedCar.fadeOut('fast');
+            }
+        </script>
+        <h:form id="form1">
+            <p:growl id="msgs" />
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 500px;"  >
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <p:inputText value="#{convocacaoMB.filterNome}" style="width:100%">
+                                    <p:ajax event="keyup" listener="#{convocacaoMB.filterArbitros}"  update="arbitrosDisponiveis"/>
+                                </p:inputText>
+                            </div>
+                            <div class="ui-g-12">
+                                <p:selectOneMenu id="ddDelegacia"  value="#{convocacaoMB.filterDelegacia}" style="width:125px">
+                                    <f:selectItem itemLabel="Escolha uma" itemValue="" />
+                                    <f:selectItems value="#{convocacaoMB.delegacias}" var="delegacia" itemLabel="${delegacia.delegacia}" itemValue="${delegacia.id}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <p:dataGrid id="arbitrosDisponiveis" var="arbitro" value="#{convocacaoMB.getArea(0)}" columns="2" paginator="true" paginatorPosition="top" rows="5"
+                                    paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
+                            <p:panel id="pnl" header="#{arbitro.idarbitro.nome}"  style="text-align:center; width: 200px">
+                                <div class="ui-g">
+                                    <div class="ui-g-3" align="left"> <p:graphicImage name="images/arbitros/#{arbitro.idarbitro.id}.jpg" height="40" width="40"  /></div>
+                                    <div class="ui-g-9 ui-g-nopad">
+                                        <div class="ui-g-12" align="left">
+                                            <p:graphicImage name="images/relatorio/grad_conv_#{arbitro.idarbitro.categoria}.png"/>
+                                        </div>
+                                        <div class="ui-g-12" align="left">
+                                            <p:outputLabel  value="${arbitro.idarbitro.idassociacao.nome}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+                            <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                        </p:dataGrid>
+                    </p:fieldset>
+                </div>
+                <div class="ui-g-6">              
+                    <p:dataGrid  id="dt_areas" var="area" value="#{convocacaoMB.areas}" columns="2" layout="grid" paginator="true" paginatorPosition="top" rows="4"
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
+                        <f:facet name="header">
+                            Distribuição de Áreas
+                        </f:facet>
+                        <p:panel >
+                            <p:outputPanel>
+                                <p:orderList value="#{convocacaoMB.convocados}" var="convocado"  itemValue="#{convocado}" responsive="false"   controlsLocation="none" class="ui-widget-content2"  style="width: 300px; background-image:url('../resources/images/dojo.jpg'); background-repeat: no-repeat" >
+                                    <p:ajax event="reorder" listener="#{convocacaoMB.onReorder(convocado)}" update="form1:msgs"/>
+                                    <p:panel rendered="#{area.equals(convocado.area)}">
+                                        <p:column style="text-align: center; width: 35px;">
+                                            <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
+                                        </p:column>
+                                        <p:column style="text-align: left; width: 110px;">
+                                            <h:outputText value="#{convocado.idarbitro.nome}" />
+                                        </p:column>
+                                        <p:column style="text-align: left; width: 80px;">
+                                            <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
+                                        </p:column>
+                                    </p:panel>
+                                </p:orderList>
+                            </p:outputPanel>
+                            <p:droppable  tolerance="touch" activeStyleClass="ui-state-highlight" datasource=":form1:arbitrosDisponiveis"  onDrop="handleDrop">
+                                <p:ajax listener="#{convocacaoMB.onAreaDrop}" update="form1:dt_areas"  />
+                            </p:droppable>
+                        </p:panel>   
+                    </p:dataGrid>
+                </div>
+            </div>
+        </h:form>
     </h:body>
 </html>
 

@@ -42,14 +42,18 @@
                 <p:panel>
                     <div class="ui-g">
                         <div class="ui-g-12">
-                            <h:outputLabel value="Associacao" for="txtNome"/>
-                            <p:inputText id="txtNome" value="#{associacaoMB.item.nome}" size="100" />
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">Nome</span>
+                                <p:inputText id="txtNome" value="#{associacaoMB.item.nome}" size="100" />
+                            </div>
                         </div>
                     </div>
                     <div class="ui-g">
                         <div class="ui-g-12">
-                            <h:outputLabel value="Cidade" for="txtCidade"/>
-                            <p:inputText id="txtCidade" value="#{associacaoMB.item.cidade}" size="100" />
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">Cidade</span>
+                                <p:inputText id="txtCidade" value="#{associacaoMB.item.cidade}" size="100" />
+                            </div>
                         </div>
                     </div>
                     <div class="ui-g">

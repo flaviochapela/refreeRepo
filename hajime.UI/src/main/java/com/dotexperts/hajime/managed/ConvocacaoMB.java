@@ -25,6 +25,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.DragDropEvent;
+import org.primefaces.event.ReorderEvent;
 
 /**
  *
@@ -49,22 +50,28 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     private Campeonato campeonato;
     private List<Arbitro> arbitrosFull;
     private List<Arbitro> arbitros;
+    private List<Campeonatoarbitro> convocadosFull;
     private List<Campeonatoarbitro> convocados;
     private List<Delegacia> delegacias;
     private String filterNome;
     private int filterDelegacia;
+    private List<String> areas;
 
     @PostConstruct
     public void init() {
         this.ejb = ejbCampeonatoArbitro;
         this.arbitros = this.arbitrosFull = ejbArbitro.listAll();
         this.campeonato = ejbCampeonato.get(Integer.parseInt(getParameter("id")));
-        this.convocados =  new ArrayList<>();
-                
+        makeAreas(this.campeonato.getAreas());
+
+        this.convocadosFull = new ArrayList<>();
+        this.convocados = new ArrayList<>();
+
         if (this.campeonato.getCampeonatoarbitroCollection().size() > 0) {
             this.convocados.addAll(this.campeonato.getCampeonatoarbitroCollection());
-        } 
-        
+            this.convocadosFull.addAll(this.campeonato.getCampeonatoarbitroCollection());
+        }
+
         this.delegacias = ejbDelegacia.listAll();
     }
 
@@ -105,11 +112,43 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         this.arbitros.remove(a);
     }
 
-    public void filterArbitros() {
-        this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
-        this.item = new Campeonatoarbitro();
+    public void onAreaDrop(DragDropEvent ddEvent) {
+
+        String a = ddEvent.getDropId();
+        String b = a.substring(15, 16);
+        int narea = Integer.parseInt(b);
+        this.item = (Campeonatoarbitro) ddEvent.getData();
+        this.item.setArea(narea + 1);
+        saveItem();
     }
 
+    public void filterArbitros() {
+        this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
+    }
+
+    public void filterConvocados() {
+        this.convocados = this.convocadosFull.stream().filter(a -> a.getIdarbitro().getNome().contains(filterNome)).collect(Collectors.toList());
+    }
+
+    public List<Campeonatoarbitro> getArea(int numeroarea) {
+        return this.convocadosFull.stream().filter(a -> a.getArea() == numeroarea).collect(Collectors.toList());
+    }
+
+    public void makeAreas(int qtd) {
+        this.areas = new ArrayList<>();
+        for (int i = 0; i < qtd; i++) {
+            this.areas.add(String.valueOf(i + 1));
+        }
+    }
+
+    public void onReorder(ReorderEvent event, Campeonatoarbitro ca) {
+        
+        this.item = ca;
+        this.item.setOrdem(event.getToIndex());
+        saveItem();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Form Properties">
     public List<Arbitro> getArbitros() {
         return arbitros;
     }
@@ -149,4 +188,13 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     public void setFilterDelegacia(int filterDelegacia) {
         this.filterDelegacia = filterDelegacia;
     }
+
+    public List<String> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<String> areas) {
+        this.areas = areas;
+    }
+    // </editor-fold>
 }
