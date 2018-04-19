@@ -16,53 +16,72 @@
             }
         </script>
         <h:form id="form1">
-
-            <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 300px;" >
-                <p:dataGrid id="arbitrosDisponiveis" var="arbitro" value="#{convocacaoMB.arbitros}" columns="1" >
-                    <p:panel id="pnl" header="#{arbitro.nome}" style="text-align:center">
+            <div class="ui-g">
+                <div class="ui-g-6">  
+                    <p:fieldset id="selectedArbitros" legend="Convocados" style="margin-top:20px">
+                        <p:outputPanel id="dropArea">
+                            <h:outputText value="!!!Drop here!!!" rendered="#{convocacaoMB.convocados.size() ==0}" style="font-size:24px;" />
+                            <p:dataTable id="selectedArbitrosTable" var="convocado" value="#{convocacaoMB.convocados}" rendered="#{not empty convocacaoMB.convocados}">
+                                <p:column style="text-align: center; width: 35px">
+                                    <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
+                                </p:column>
+                                <p:column headerText="Nome" width="150px">
+                                    <h:outputText value="#{convocado.idarbitro.nome}" />
+                                </p:column>
+                                <p:column headerText="Categoria" style="text-align: left; width: 100px;">
+                                    <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
+                                </p:column>
+                                <p:column headerText="Associacão" width="150px">
+                                    <h:outputText value="#{convocado.idarbitro.idassociacao.nome}" />
+                                </p:column>
+                                <p:column style="width:30px">
+                                    <p:commandButton  icon="ui-icon-serach" update=":form1:dropArea :form1:arbitrosDisponiveis">
+                                        <f:actionListener binding="#{convocacaoMB.removeConvocacao(convocado)}"  />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </p:fieldset>
+                    <p:droppable for="selectedArbitros" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="arbitrosDisponiveis"  onDrop="handleDrop">
+                        <p:ajax listener="#{convocacaoMB.onArbitroDrop}" update="dropArea arbitrosDisponiveis" />
+                    </p:droppable>
+                </div>
+                <div class="ui-g-6"> 
+                    
+                    <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 500px;"  >
                         <div class="ui-g">
-                            <div class="ui-g-3" align="left"> <p:graphicImage name="images/arbitros/#{arbitro.id}.jpg" height="50" width="50"  /></div>
-                            <div class="ui-g-9 ui-g-nopad">
-                                <div class="ui-g-12" align="left">
-                                    <p:graphicImage name="images/relatorio/grad_conv_#{arbitro.categoria}.png"/>
-                                </div>
-                                <div class="ui-g-12" align="left">
-                                    <p:outputLabel  value="${arbitro.idassociacao.nome}"/>
-                                </div>
+                            <div class="ui-g-12">
+                                <p:inputText value="#{convocacaoMB.filterNome}" style="width:100%">
+                                    <p:ajax event="keyup" listener="#{convocacaoMB.filterArbitros}"  update="arbitrosDisponiveis"/>
+                                </p:inputText>
+                            </div>
+                            <div class="ui-g-12">
+                                <p:selectOneMenu id="ddDelegacia"  value="#{convocacaoMB.filterDelegacia}" style="width:125px">
+                                <f:selectItem itemLabel="Escolha uma" itemValue="" />
+                                <f:selectItems value="#{convocacaoMB.delegacias}" var="delegacia" itemLabel="${delegacia.delegacia}" itemValue="${delegacia.id}" />
+                            </p:selectOneMenu>
                             </div>
                         </div>
-                    </p:panel>
-                    <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
-                </p:dataGrid>
-            </p:fieldset>
-            <p:fieldset id="selectedArbitros" legend="Convocados" style="margin-top:20px">
-                <p:outputPanel id="dropArea">
-                    <h:outputText value="!!!Drop here!!!" rendered="#{convocacaoMB.convocados.size() ==0}" style="font-size:24px;" />
-                    <p:dataTable id="selectedArbitrosTable" var="convocado" value="#{convocacaoMB.convocados}" rendered="#{not empty convocacaoMB.convocados}">
-                        <p:column headerText="Nome">
-                            <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
-                        </p:column>
-                        <p:column headerText="Nome">
-                            <h:outputText value="#{convocado.idarbitro.nome}" />
-                        </p:column>
-                        <p:column headerText="Categoria">
-                            <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
-                        </p:column>
-                        <p:column headerText="Associacão">
-                            <h:outputText value="#{convocado.idarbitro.idassociacao.nome}" />
-                        </p:column>
-                        <p:column style="width:32px">
-                            <p:commandButton  icon="ui-icon-serach" update=":form1:dropArea :form1:arbitrosDisponiveis">
-                            <f:actionListener binding="#{convocacaoMB.removeConvocacao(convocado)}"  />
-                        </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </p:outputPanel>
-            </p:fieldset>
-            <p:droppable for="selectedArbitros" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="arbitrosDisponiveis"  onDrop="handleDrop">
-                <p:ajax listener="#{convocacaoMB.onArbitroDrop}" update="dropArea arbitrosDisponiveis" />
-            </p:droppable>
-
+                        <p:dataGrid id="arbitrosDisponiveis" var="arbitro" value="#{convocacaoMB.arbitros}" columns="2" paginator="true" paginatorPosition="top" rows="5"
+                                    paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
+                            <p:panel id="pnl" header="#{arbitro.nome}"  style="text-align:center;">
+                                <div class="ui-g">
+                                    <div class="ui-g-3" align="left"> <p:graphicImage name="images/arbitros/#{arbitro.id}.jpg" height="40" width="40"  /></div>
+                                    <div class="ui-g-9 ui-g-nopad">
+                                        <div class="ui-g-12" align="left">
+                                            <p:graphicImage name="images/relatorio/grad_conv_#{arbitro.categoria}.png"/>
+                                        </div>
+                                        <div class="ui-g-12" align="left">
+                                            <p:outputLabel  value="${arbitro.idassociacao.nome}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+                            <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                        </p:dataGrid>
+                    </p:fieldset>
+                </div>
+            </div>
         </h:form>
     </h:body>
 </html>

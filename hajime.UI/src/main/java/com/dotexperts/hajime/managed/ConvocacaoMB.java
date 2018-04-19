@@ -10,12 +10,16 @@ import com.dotexperts.enummerators.EnumTipoConvocacao;
 import com.dotexperts.hajime.interfaces.iArbitro;
 import com.dotexperts.hajime.interfaces.iCampeonato;
 import com.dotexperts.hajime.interfaces.iCampeonatoArbitro;
+import com.dotexperts.hajime.interfaces.iDelegacia;
 import com.dotexperts.hajime.model.Arbitro;
 import com.dotexperts.hajime.model.Campeonato;
 import com.dotexperts.hajime.model.Campeonatoarbitro;
+import com.dotexperts.hajime.model.Delegacia;
 import java.io.Serializable;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -39,16 +43,29 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     @EJB
     private iArbitro ejbArbitro;
 
+    @EJB
+    private iDelegacia ejbDelegacia;
+
     private Campeonato campeonato;
+    private List<Arbitro> arbitrosFull;
     private List<Arbitro> arbitros;
     private List<Campeonatoarbitro> convocados;
+    private List<Delegacia> delegacias;
+    private String filterNome;
+    private int filterDelegacia;
 
     @PostConstruct
     public void init() {
         this.ejb = ejbCampeonatoArbitro;
-        this.arbitros = ejbArbitro.listAll();
-        this.convocados = new ArrayList<>();
-        this.campeonato = ejbCampeonato.get(2);
+        this.arbitros = this.arbitrosFull = ejbArbitro.listAll();
+        this.campeonato = ejbCampeonato.get(Integer.parseInt(getParameter("id")));
+        this.convocados =  new ArrayList<>();
+                
+        if (this.campeonato.getCampeonatoarbitroCollection().size() > 0) {
+            this.convocados.addAll(this.campeonato.getCampeonatoarbitroCollection());
+        } 
+        
+        this.delegacias = ejbDelegacia.listAll();
     }
 
     @Override
@@ -57,7 +74,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     }
 
     public void addConvocacao(Arbitro arbitro) {
-        
+
         final boolean find;
         Campeonatoarbitro ca = new Campeonatoarbitro();
         ca.setIdcampeonato(this.campeonato);
@@ -67,27 +84,30 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         ca.setArea(0);
         ca.setOrdem(0);
 
-       if (this.convocados.stream().filter(a->a.getIdarbitro().equals(arbitro)).count() ==0)
-       {
+        if (this.convocados.stream().filter(a -> a.getIdarbitro().equals(arbitro)).count() == 0) {
             this.convocados.add(ca);
-            //this.item = ca;
-            //saveItem();
-       }
+            this.item = ca;
+            saveItem();
+        }
     }
-    
-    public void removeConvocacao(Campeonatoarbitro ca)
-    {
+
+    public void removeConvocacao(Campeonatoarbitro ca) {
         this.arbitros.add(ca.getIdarbitro());
         this.convocados.remove(ca);
-        //this.item = ca;
-        //deleteItem();
+        this.item = ca;
+        deleteItem();
     }
-    
-     public void onArbitroDrop(DragDropEvent ddEvent)  {
-         
+
+    public void onArbitroDrop(DragDropEvent ddEvent) {
+
         Arbitro a = ((Arbitro) ddEvent.getData());
         addConvocacao(a);
         this.arbitros.remove(a);
+    }
+
+    public void filterArbitros() {
+        this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
+        this.item = new Campeonatoarbitro();
     }
 
     public List<Arbitro> getArbitros() {
@@ -104,5 +124,29 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
 
     public void setConvocados(List<Campeonatoarbitro> convocados) {
         this.convocados = convocados;
+    }
+
+    public List<Delegacia> getDelegacias() {
+        return delegacias;
+    }
+
+    public void setDelegacias(List<Delegacia> delegacias) {
+        this.delegacias = delegacias;
+    }
+
+    public String getFilterNome() {
+        return filterNome;
+    }
+
+    public void setFilterNome(String filterNome) {
+        this.filterNome = filterNome;
+    }
+
+    public int getFilterDelegacia() {
+        return filterDelegacia;
+    }
+
+    public void setFilterDelegacia(int filterDelegacia) {
+        this.filterDelegacia = filterDelegacia;
     }
 }
