@@ -56,6 +56,8 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     private String filterNome;
     private int filterDelegacia;
     private List<String> areas;
+    private List<List<Campeonatoarbitro>> listAreas;
+
 
     @PostConstruct
     public void init() {
@@ -66,12 +68,13 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
 
         this.convocadosFull = new ArrayList<>();
         this.convocados = new ArrayList<>();
+        this.listAreas =  new ArrayList<>();
 
         if (this.campeonato.getCampeonatoarbitroCollection().size() > 0) {
             this.convocados.addAll(this.campeonato.getCampeonatoarbitroCollection());
             this.convocadosFull.addAll(this.campeonato.getCampeonatoarbitroCollection());
         }
-
+        makeDistribuicao();
         this.delegacias = ejbDelegacia.listAll();
     }
 
@@ -111,6 +114,13 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         addConvocacao(a);
         this.arbitros.remove(a);
     }
+    
+    public void onReorder()
+    {
+        for (Campeonatoarbitro ca: this.convocados) {
+            System.out.println("1");
+        }
+    }
 
     public void onAreaDrop(DragDropEvent ddEvent) {
 
@@ -141,11 +151,15 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         }
     }
 
-    public void onReorder(ReorderEvent event, Campeonatoarbitro ca) {
-        
-        this.item = ca;
-        this.item.setOrdem(event.getToIndex());
-        saveItem();
+    public void makeDistribuicao() {
+        for (int i = 0; i < this.campeonato.getAreas(); i++) {
+            List<Campeonatoarbitro> ca = getArea(i + 1);
+            if (ca == null)
+            {
+                ca = new ArrayList<>();
+            }
+            this.listAreas.add(getArea(i + 1));
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Form Properties">
@@ -196,5 +210,14 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     public void setAreas(List<String> areas) {
         this.areas = areas;
     }
+
+     public List<List<Campeonatoarbitro>> getListAreas() {
+        return listAreas;
+    }
+
+    public void setListAreas(List<List<Campeonatoarbitro>> listAreas) {
+        this.listAreas = listAreas;
+    }
+    
     // </editor-fold>
 }

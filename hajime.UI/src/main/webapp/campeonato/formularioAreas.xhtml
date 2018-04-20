@@ -17,6 +17,7 @@
         </script>
         <h:form id="form1">
             <p:growl id="msgs" />
+            <p:commandButton  actionListener="#{convocacaoMB.onReorder()}" value="Gravar" ajax="true" />
             <div class="ui-g">
                 <div class="ui-g-6">
                     <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 500px;"  >
@@ -53,32 +54,30 @@
                     </p:fieldset>
                 </div>
                 <div class="ui-g-6">              
-                    <p:dataGrid  id="dt_areas" var="area" value="#{convocacaoMB.areas}" columns="2" layout="grid" paginator="true" paginatorPosition="top" rows="4"
-                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
+                    <p:dataGrid  id="dt_areas" var="area" value="#{convocacaoMB.areas}"  columns="2" layout="grid" paginator="false" paginatorPosition="top" 
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}" >
                         <f:facet name="header">
                             Distribuição de Áreas
                         </f:facet>
-                        <p:panel >
-                            <p:outputPanel>
-                                <p:orderList value="#{convocacaoMB.convocados}" var="convocado"  itemValue="#{convocado}" responsive="false"   controlsLocation="none" class="ui-widget-content2"  style="width: 300px; background-image:url('../resources/images/dojo.jpg'); background-repeat: no-repeat" >
-                                    <p:ajax event="reorder" listener="#{convocacaoMB.onReorder(convocado)}" update="form1:msgs"/>
-                                    <p:panel rendered="#{area.equals(convocado.area)}">
-                                        <p:column style="text-align: center; width: 35px;">
-                                            <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
-                                        </p:column>
-                                        <p:column style="text-align: left; width: 110px;">
-                                            <h:outputText value="#{convocado.idarbitro.nome}" />
-                                        </p:column>
-                                        <p:column style="text-align: left; width: 80px;">
-                                            <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
-                                        </p:column>
-                                    </p:panel>
+                    
+                            <p:outputPanel>                                
+                                <p:orderList  value="#{convocacaoMB.convocados}"   var="convocado"  itemValue="#{convocado}" responsive="false"    controlsLocation="left" class="ui-widget-content2"  style="width: 300px; background-image:url('../resources/images/dojo.jpg'); background-repeat: no-repeat" >
+                                  
+                                    <p:column style="text-align: center; width: 35px;" >
+                                        <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
+                                    </p:column>
+                                    <p:column style="text-align: left; width: 110px;">
+                                        <h:outputText value="#{convocado.idarbitro.nome}" />
+                                    </p:column>
+                                    <p:column style="text-align: left; width: 80px;" >
+                                        <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
+                                    </p:column>
+                                   
                                 </p:orderList>
                             </p:outputPanel>
                             <p:droppable  tolerance="touch" activeStyleClass="ui-state-highlight" datasource=":form1:arbitrosDisponiveis"  onDrop="handleDrop">
                                 <p:ajax listener="#{convocacaoMB.onAreaDrop}" update="form1:dt_areas"  />
                             </p:droppable>
-                        </p:panel>   
                     </p:dataGrid>
                 </div>
             </div>
