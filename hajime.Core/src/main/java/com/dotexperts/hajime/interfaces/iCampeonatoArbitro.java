@@ -6,11 +6,13 @@
 package com.dotexperts.hajime.interfaces;
 
 import com.dotexperts.hajime.model.Campeonatoarbitro;
+import javax.ejb.Local;
 
 /**
  *
  * @author admprodesp
  */
+@Local
 public interface iCampeonatoArbitro extends iBase<Campeonatoarbitro> {
     
 }

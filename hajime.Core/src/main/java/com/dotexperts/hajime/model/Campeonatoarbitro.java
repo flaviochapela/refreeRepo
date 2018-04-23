@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -62,7 +63,11 @@ public class Campeonatoarbitro extends GenericModel implements Serializable {
     @JoinColumn(name = "idcampeonato", referencedColumnName = "idcampeonato")
     @ManyToOne(optional = false)
     private Campeonato idcampeonato;
-
+    
+    @Transient
+    private boolean selecionado;
+  
+  
     public Campeonatoarbitro() {
     }
 
@@ -130,6 +135,15 @@ public class Campeonatoarbitro extends GenericModel implements Serializable {
 
     public void setIdcampeonato(Campeonato idcampeonato) {
         this.idcampeonato = idcampeonato;
+    }
+    
+    @Transient
+    public boolean isSelecionado() {
+        return selecionado;
+    }
+
+    public void setSelecionado(boolean selecionado) {
+        this.selecionado = selecionado;
     }
 
     @Override
