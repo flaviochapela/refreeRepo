@@ -8,17 +8,10 @@
         <title>hajime!</title>
     </h:head>
     <h:body>
-          <h:outputStylesheet name="css/default.css" />
-      
-        <script type="text/javascript">
-            function handleDrop(event, ui) {
-                var droppedCar = ui.draggable;
-                droppedCar.fadeOut('fast');
-            }
-        </script>
+        <h:outputStylesheet name="css/default.css" />
+
         <h:form id="form1">
             <p:growl id="msgs" />
-            <p:commandButton  actionListener="#{convocacaoMB.onReorder()}" value="Gravar"  />
             <p:commandButton  actionListener="#{convocacaoMB.gerarRelatorio()}" value="Relatorio"  />
             <div class="ui-g">
                 <div class="ui-g-6">
@@ -35,24 +28,25 @@
                                     <f:selectItems value="#{convocacaoMB.delegacias}" var="delegacia" itemLabel="${delegacia.delegacia}" itemValue="${delegacia.id}" />
                                 </p:selectOneMenu>
                             </div>
-                        </div>
-                        <p:dataGrid id="arbitrosDisponiveis" rowIndexVar="" var="arbitro" value="#{convocacaoMB.getArea(0)}" columns="2" paginator="true" paginatorPosition="top" rows="5"
-                                    paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
-                            <p:panel id="pnl" header="#{arbitro.idarbitro.nome}"  style="text-align:center; width: 200px">
-                                <div class="ui-g">
-                                    <div class="ui-g-3" align="left"> <p:graphicImage name="images/arbitros/#{arbitro.idarbitro.id}.jpg" height="40" width="40"  /></div>
-                                    <div class="ui-g-9 ui-g-nopad">
-                                        <div class="ui-g-12" align="left">
-                                            <p:graphicImage name="images/relatorio/grad_conv_#{arbitro.idarbitro.categoria}.png"/>
-                                        </div>
-                                        <div class="ui-g-12" align="left">
-                                            <p:outputLabel  value="${arbitro.idarbitro.idassociacao.nome}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </p:panel>
-                            <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
-                        </p:dataGrid>
+                        </div>                        
+                        <p:dataTable id="arbitrosDisponiveis" var="convocado" value="#{convocacaoMB.convocados}" rowStyleClass="#{convocado.area eq 0 ? null: 'shazam'}">
+
+                            <p:column  width="30">
+                                <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30" rendered="#{convocado.area == 0}"  />
+                            </p:column>
+                            <p:column headerText="Nome" width="150px" >
+                                <h:outputText value="#{convocado.idarbitro.nome}" rendered="#{convocado.area == 0}" />
+                            </p:column>
+                            <p:column  headerText="Categoria" width="100">
+                                <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png" rendered="#{convocado.area == 0}" />
+                            </p:column>
+                            <p:column  headerText="Associacão" width="150" >
+                                <h:outputText value="#{convocado.idarbitro.idassociacao.nome}" rendered="#{convocado.area == 0}" />
+                            </p:column>
+                            <p:column width="20">
+                                <p:selectBooleanCheckbox value="#{convocado.selecionado}" rendered="#{convocado.area == 0}" />
+                            </p:column>
+                        </p:dataTable>
                     </p:fieldset>
                 </div>
                 <div class="ui-g-6">              
@@ -61,33 +55,26 @@
                         <f:facet name="header">
                             Distribuição de Áreas
                         </f:facet>
-
-                        <p:outputPanel  >                                
-                            <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" resizableColumns="true" draggableRows="true" style="width: 300px; height: 300px">
-                                <p:ajax event="rowReorder" listener="#{convocacaoMB.onReorder}" />
-                                <f:facet name="header">
-                                    <p:outputLabel class="header-table" value="Area-#{area}" />
-                                </f:facet>
-                                <p:column  rendered="#{convocado.area == area}" style="width: 30px" width="20" >
-                                    <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg"  width="30"  style="width: 30px" />
-                                </p:column>
-                                <p:column rendered="#{convocado.area == area}">
-                                    <h:outputText value="#{convocado.idarbitro.nome}" />
-                                </p:column>
-                                <p:column rendered="#{convocado.area == area}">
-                                    <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
-                                </p:column>
-                                <p:column rendered="#{convocado.area == area}">
-                                    <p:commandButton  icon="ui-icon-serach" update=":form1:dt_areas :form1:arbitrosDisponiveis">
-                                        <f:actionListener binding="#{convocacaoMB.removeArea(convocado)}"  />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                            <p:droppable  tolerance="touch" activeStyleClass="ui-state-highlight" datasource=":form1:arbitrosDisponiveis"  onDrop="handleDrop">
-                                <p:ajax listener="#{convocacaoMB.onAreaDrop}" update="form1:dt_areas"  />
-                            </p:droppable>
-                        </p:outputPanel>
-
+                      
+                        <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" draggableRows="true" style="width: 320px; height: 320px" scrollWidth="false" rowStyleClass="#{convocado.area eq area ? null: 'shazam'}">
+                            <p:ajax event="rowReorder" listener="#{convocacaoMB.addArea(area, false)}"  />
+                            <f:facet name="header">                                    
+                                <p:commandButton value="Área - #{area}" actionListener="#{convocacaoMB.addArea(area, true)}" icon="fa fa-fw fa-refresh" update=":form1:dt_areas :form1:arbitrosDisponiveis"/>                                    
+                            </f:facet>
+                            <p:column width="20">
+                                <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" width="20" height="20" />
+                            </p:column>
+                            <p:column width="90">
+                                <h:outputText value="#{convocado.idarbitro.nome}" />
+                            </p:column>
+                            <p:column width="80">
+                                <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"  />
+                            </p:column>
+                            <p:column width="20">
+                                <p:commandButton actionListener="#{convocacaoMB.RemoveArea(convocado)}"  icon="fa fa-fw fa-close" update=":form1:dt_areas :form1:arbitrosDisponiveis" />
+                            </p:column>                            
+                        </p:dataTable>
+                     
                     </p:dataGrid>
                 </div>
             </div>

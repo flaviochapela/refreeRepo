@@ -21,6 +21,7 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -63,7 +64,6 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     private List<Integer> areas;
     private List<List<Campeonatoarbitro>> listAreas;
 
-
     @PostConstruct
     public void init() {
         this.ejb = ejbCampeonatoArbitro;
@@ -73,13 +73,12 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
 
         this.convocadosFull = new ArrayList<>();
         this.convocados = new ArrayList<>();
-        this.listAreas =  new ArrayList<>();
+        this.listAreas = new ArrayList<>();
 
         if (this.campeonato.getCampeonatoarbitroCollection().size() > 0) {
             this.convocados.addAll(this.campeonato.getCampeonatoarbitroCollection());
             this.convocadosFull.addAll(this.campeonato.getCampeonatoarbitroCollection());
         }
-        makeDistribuicao();
         this.delegacias = ejbDelegacia.listAll();
     }
 
@@ -119,52 +118,32 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         addConvocacao(a);
         this.arbitros.remove(a);
     }
-    
-    public void onReorder(ReorderEvent event)
-    {
-        
-         DataTable myDatatable = (DataTable)event.getSource();
-         this.item = (Campeonatoarbitro) myDatatable.getRowData(); 
-         this.item.setOrdem(event.getToIndex()+1);
-         saveItem();
-    
+
+    public void onReorder(ReorderEvent event) {
+
+        DataTable myDatatable = (DataTable) event.getSource();
+        this.item = (Campeonatoarbitro) myDatatable.getRowData();
+        this.item.setOrdem(event.getToIndex() + 1);
+        saveItem();
+
     }
-    
-    public void gerarRelatorio() 
-    {
+
+    public void gerarRelatorio() {
         try {
-             AreasRelatorio rel = new AreasRelatorio();
-            
-             List<Campeonatoarbitro> r = new ArrayList<>();
-             Campeonato c = new Campeonato();
-             c = ejbCampeonato.get(this.campeonato.getId());
-             r.addAll(c.getCampeonatoarbitroCollection());
-                     
+            AreasRelatorio rel = new AreasRelatorio();
+
+            List<Campeonatoarbitro> r = new ArrayList<>();
+            Campeonato c = new Campeonato();
+            c = ejbCampeonato.get(this.campeonato.getId());
+            r.addAll(c.getCampeonatoarbitroCollection());
+
             rel.imprimir(r);
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
-        
-    }
 
-    public void onAreaDrop(DragDropEvent ddEvent) {
-
-        String a = ddEvent.getDropId();
-        String b = a.substring(15, 16);
-        int narea = Integer.parseInt(b);
-        this.item = (Campeonatoarbitro) ddEvent.getData();
-        this.item.setArea(narea + 1);
-        this.item.setOrdem(getArea(narea + 1).size()+1);
-        saveItem();
     }
-    
-    public void RemoveArea(Campeonatoarbitro ca)
-    {
-        this.item = ca;
-        this.item.setArea(0);
-        saveItem();
-    }
-
+  
     public void filterArbitros() {
         this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
     }
@@ -173,10 +152,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         this.convocados = this.convocadosFull.stream().filter(a -> a.getIdarbitro().getNome().contains(filterNome)).collect(Collectors.toList());
     }
 
-    public List<Campeonatoarbitro> getArea(int numeroarea) {
-        return this.convocadosFull.stream().filter(a -> a.getArea() == numeroarea).collect(Collectors.toList());
-    }
-
+  
     public void makeAreas(int qtd) {
         this.areas = new ArrayList<>();
         for (int i = 0; i < qtd; i++) {
@@ -184,18 +160,37 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         }
     }
 
-    public void makeDistribuicao() {
-        for (int i = 0; i < this.campeonato.getAreas(); i++) {
-            List<Campeonatoarbitro> ca = getArea(i + 1);
-            if (ca == null)
-            {
-                ca = new ArrayList<>();
+    public void addArea(int idarea, boolean add) {
+        int ordem = 1;
+        for (Campeonatoarbitro ca : this.convocados) {
+            if (add) {
+                if (ca.isSelecionado()) {
+                    saveArea(ca, idarea, ordem++);
+                }
+            } else {
+                if (ca.getArea() == idarea) {
+                    saveArea(ca, idarea, ordem++);
+                }
             }
-            this.listAreas.add(getArea(i + 1));
         }
     }
+    
+     public void saveArea(Campeonatoarbitro ca, int area, int ordem) {
 
-    // <editor-fold defaultstate="collapsed" desc="Form Properties">
+        ca.setSelecionado(false);
+        ca.setArea(area);
+        ca.setOrdem(ordem);
+        this.item = ca;
+        saveItem();
+    }
+
+    public void RemoveArea(Campeonatoarbitro ca) {
+        this.item = ca;
+        this.item.setArea(0);
+        saveItem();
+    }
+
+// <editor-fold defaultstate="collapsed" desc="Form Properties">
     public List<Arbitro> getArbitros() {
         return arbitros;
     }
@@ -244,13 +239,20 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         this.areas = areas;
     }
 
-     public List<List<Campeonatoarbitro>> getListAreas() {
+    public List<List<Campeonatoarbitro>> getListAreas() {
         return listAreas;
     }
 
     public void setListAreas(List<List<Campeonatoarbitro>> listAreas) {
         this.listAreas = listAreas;
     }
-    
+
+    public List<Campeonatoarbitro> getConvocadosFull() {
+        return convocadosFull;
+    }
+
+    public void setConvocadosFull(List<Campeonatoarbitro> convocadosFull) {
+        this.convocadosFull = convocadosFull;
+    }
     // </editor-fold>
 }
