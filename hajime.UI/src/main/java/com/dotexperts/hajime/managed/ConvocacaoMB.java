@@ -15,15 +15,20 @@ import com.dotexperts.hajime.model.Arbitro;
 import com.dotexperts.hajime.model.Campeonato;
 import com.dotexperts.hajime.model.Campeonatoarbitro;
 import com.dotexperts.hajime.model.Delegacia;
+import com.dotexperts.hajime.util.AreasRelatorio;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import static org.primefaces.component.contextmenu.ContextMenu.PropertyKeys.event;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.ReorderEvent;
 
@@ -55,7 +60,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     private List<Delegacia> delegacias;
     private String filterNome;
     private int filterDelegacia;
-    private List<String> areas;
+    private List<Integer> areas;
     private List<List<Campeonatoarbitro>> listAreas;
 
 
@@ -115,11 +120,31 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         this.arbitros.remove(a);
     }
     
-    public void onReorder()
+    public void onReorder(ReorderEvent event)
     {
-        for (Campeonatoarbitro ca: this.convocados) {
-            System.out.println("1");
+        
+         DataTable myDatatable = (DataTable)event.getSource();
+         this.item = (Campeonatoarbitro) myDatatable.getRowData(); 
+         this.item.setOrdem(event.getToIndex()+1);
+         saveItem();
+    
+    }
+    
+    public void gerarRelatorio() 
+    {
+        try {
+             AreasRelatorio rel = new AreasRelatorio();
+            
+             List<Campeonatoarbitro> r = new ArrayList<>();
+             Campeonato c = new Campeonato();
+             c = ejbCampeonato.get(this.campeonato.getId());
+             r.addAll(c.getCampeonatoarbitroCollection());
+                     
+            rel.imprimir(r);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
+        
     }
 
     public void onAreaDrop(DragDropEvent ddEvent) {
@@ -129,6 +154,14 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         int narea = Integer.parseInt(b);
         this.item = (Campeonatoarbitro) ddEvent.getData();
         this.item.setArea(narea + 1);
+        this.item.setOrdem(getArea(narea + 1).size()+1);
+        saveItem();
+    }
+    
+    public void RemoveArea(Campeonatoarbitro ca)
+    {
+        this.item = ca;
+        this.item.setArea(0);
         saveItem();
     }
 
@@ -147,7 +180,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     public void makeAreas(int qtd) {
         this.areas = new ArrayList<>();
         for (int i = 0; i < qtd; i++) {
-            this.areas.add(String.valueOf(i + 1));
+            this.areas.add(i + 1);
         }
     }
 
@@ -203,11 +236,11 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         this.filterDelegacia = filterDelegacia;
     }
 
-    public List<String> getAreas() {
+    public List<Integer> getAreas() {
         return areas;
     }
 
-    public void setAreas(List<String> areas) {
+    public void setAreas(List<Integer> areas) {
         this.areas = areas;
     }
 

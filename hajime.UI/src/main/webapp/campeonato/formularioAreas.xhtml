@@ -8,7 +8,8 @@
         <title>hajime!</title>
     </h:head>
     <h:body>
-        <h:outputStylesheet name="css/default.css" />
+          <h:outputStylesheet name="css/default.css" />
+      
         <script type="text/javascript">
             function handleDrop(event, ui) {
                 var droppedCar = ui.draggable;
@@ -17,7 +18,8 @@
         </script>
         <h:form id="form1">
             <p:growl id="msgs" />
-            <p:commandButton  actionListener="#{convocacaoMB.onReorder()}" value="Gravar" ajax="true" />
+            <p:commandButton  actionListener="#{convocacaoMB.onReorder()}" value="Gravar"  />
+            <p:commandButton  actionListener="#{convocacaoMB.gerarRelatorio()}" value="Relatorio"  />
             <div class="ui-g">
                 <div class="ui-g-6">
                     <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 500px;"  >
@@ -34,7 +36,7 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
-                        <p:dataGrid id="arbitrosDisponiveis" var="arbitro" value="#{convocacaoMB.getArea(0)}" columns="2" paginator="true" paginatorPosition="top" rows="5"
+                        <p:dataGrid id="arbitrosDisponiveis" rowIndexVar="" var="arbitro" value="#{convocacaoMB.getArea(0)}" columns="2" paginator="true" paginatorPosition="top" rows="5"
                                     paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
                             <p:panel id="pnl" header="#{arbitro.idarbitro.nome}"  style="text-align:center; width: 200px">
                                 <div class="ui-g">
@@ -54,30 +56,38 @@
                     </p:fieldset>
                 </div>
                 <div class="ui-g-6">              
-                    <p:dataGrid  id="dt_areas" var="area" value="#{convocacaoMB.areas}"  columns="2" layout="grid" paginator="false" paginatorPosition="top" 
-                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}" >
+                    <p:dataGrid  id="dt_areas" var="area"  value="#{convocacaoMB.areas}"  columns="2" rows="4" paginator="true"  paginatorPosition="top" 
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}"  >
                         <f:facet name="header">
                             Distribuição de Áreas
                         </f:facet>
-                    
-                            <p:outputPanel>                                
-                                <p:orderList  value="#{convocacaoMB.convocados}"   var="convocado"  itemValue="#{convocado}" responsive="false"    controlsLocation="left" class="ui-widget-content2"  style="width: 300px; background-image:url('../resources/images/dojo.jpg'); background-repeat: no-repeat" >
-                                  
-                                    <p:column style="text-align: center; width: 35px;" >
-                                        <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30"  />
-                                    </p:column>
-                                    <p:column style="text-align: left; width: 110px;">
-                                        <h:outputText value="#{convocado.idarbitro.nome}" />
-                                    </p:column>
-                                    <p:column style="text-align: left; width: 80px;" >
-                                        <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
-                                    </p:column>
-                                   
-                                </p:orderList>
-                            </p:outputPanel>
+
+                        <p:outputPanel  >                                
+                            <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" resizableColumns="true" draggableRows="true" style="width: 300px; height: 300px">
+                                <p:ajax event="rowReorder" listener="#{convocacaoMB.onReorder}" />
+                                <f:facet name="header">
+                                    <p:outputLabel class="header-table" value="Area-#{area}" />
+                                </f:facet>
+                                <p:column  rendered="#{convocado.area == area}" style="width: 30px" width="20" >
+                                    <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg"  width="30"  style="width: 30px" />
+                                </p:column>
+                                <p:column rendered="#{convocado.area == area}">
+                                    <h:outputText value="#{convocado.idarbitro.nome}" />
+                                </p:column>
+                                <p:column rendered="#{convocado.area == area}">
+                                    <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"/>
+                                </p:column>
+                                <p:column rendered="#{convocado.area == area}">
+                                    <p:commandButton  icon="ui-icon-serach" update=":form1:dt_areas :form1:arbitrosDisponiveis">
+                                        <f:actionListener binding="#{convocacaoMB.removeArea(convocado)}"  />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
                             <p:droppable  tolerance="touch" activeStyleClass="ui-state-highlight" datasource=":form1:arbitrosDisponiveis"  onDrop="handleDrop">
                                 <p:ajax listener="#{convocacaoMB.onAreaDrop}" update="form1:dt_areas"  />
                             </p:droppable>
+                        </p:outputPanel>
+
                     </p:dataGrid>
                 </div>
             </div>

@@ -61,28 +61,20 @@ root {
    
 }    
 
-     /* width */
-    ::-webkit-scrollbar {
-        width: 5px;
+.bg-table {
+width: 100%;
+    height: 300px;
+    border: 20px solid #7270fb;
+    background: #ffff68;
+    padding: 5px;
+    box-sizing: border-box;
+}
 
-    }
+.bg-table .ui-widget-header{
+    background: transparent!important;
+    border: none!important;
+}
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 5px blue; 
-        border-radius: 10px;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #6262FF; 
-        border-radius: 10px; 
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: gray; 
-    }
-
-
-
+.bg-table .ui-widget-content {     background: transparent!important;
+    border: none;
+    border-color: transparent!important;}
