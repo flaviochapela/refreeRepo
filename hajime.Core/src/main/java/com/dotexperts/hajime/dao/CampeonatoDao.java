@@ -16,12 +16,12 @@ import javax.persistence.Query;
 public class CampeonatoDao extends GenericDao<Campeonato> {
 
     
-    public CampeonatoDao(EntityManager em) {
-        super(Campeonato.class);
-    }
+    
 
     public Campeonato getCampeonato(int id) {
 
+        this.em = getEntityManager();
+        
         Campeonato c = null;
         Query q = em.createNamedQuery("Campeonato.findByIdcampeonato");
         q.setParameter("idcampeonato", id);

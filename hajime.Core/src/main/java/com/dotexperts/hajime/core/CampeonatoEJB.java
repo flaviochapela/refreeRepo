@@ -7,6 +7,7 @@ package com.dotexperts.hajime.core;
 
 import com.dotexperts.enummerators.EnumSituacaoConvocacao;
 import com.dotexperts.enummerators.EnumTipoConvocacao;
+import com.dotexperts.hajime.dao.CampeonatoDao;
 import com.dotexperts.hajime.interfaces.iCampeonato;
 import com.dotexperts.hajime.interfaces.iCampeonatoArbitro;
 import com.dotexperts.hajime.model.Arbitro;
@@ -69,5 +70,13 @@ public class CampeonatoEJB extends baseEJB<Campeonato> implements iCampeonato {
         }
 
     } 
+
+    @Override
+    public Campeonato getCampeonato(int id) {
+        CampeonatoDao dao = new CampeonatoDao();
+        
+        return dao.getCampeonato(id);
+        
+    }
 
 }

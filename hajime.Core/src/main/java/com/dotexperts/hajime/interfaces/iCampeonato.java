@@ -17,10 +17,11 @@ import javax.ejb.Remote;
  *
  * @author admprodesp
  */
-@Local
+@Remote
 public interface iCampeonato extends iBase<Campeonato> {
     public Campeonatoarbitro addConvocacao(int idCampeoanto, Arbitro arbitro, EnumTipoConvocacao tipo);
     public int solicitacaoConvocacao(int quantidade, EnumTipoConvocacao tipo);
     public int respostaConvocacao(int idcampeonato, int idarbitro, boolean resposta, String justificativa);
     public Campeonatoarbitro addArbitroArea(Campeonatoarbitro ca);
+    public Campeonato getCampeonato(int id);
  }

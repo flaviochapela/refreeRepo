@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,6 +69,7 @@ public class Campeonato extends GenericModel implements Serializable {
     @ManyToOne(optional = false)
     private Delegacia iddelegacia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampeonato")
+    @OrderBy("area, ordem ASC")
     private Collection<Campeonatoarbitro> campeonatoarbitroCollection;
 
     public Campeonato() {
