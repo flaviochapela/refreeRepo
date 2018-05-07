@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <h:head>
+        <title>hajime!</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/default.css" />
+        <h:form id="form1">
+             <p:commandButton  action="#{convocacaoMB.redirect('listagemArbitros.xhtml')}" value="Adicionar Arbitro"  update=":form2" oncomplete="PF('frmDialog').show()"  />
+            <p:fieldset id="arbitrosDisponiveisField" legend="Check-In de Arbitros" >
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <p:inputText value="#{convocacaoMB.filterNome}" style="width:100%">
+                            <p:ajax event="keyup" listener="#{convocacaoMB.filterArbitros}"  update="arbitrosDisponiveis"/>
+                        </p:inputText>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:selectOneMenu id="ddDelegacia"  value="#{convocacaoMB.filterDelegacia}">
+                            <f:selectItem itemLabel="Escolha uma" itemValue="" />
+                            <f:selectItems value="#{convocacaoMB.delegacias}" var="delegacia" itemLabel="${delegacia.delegacia}" itemValue="${delegacia.id}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>                        
+
+                <p:dataGrid id="arbitrosDisponiveis" var="convocado" value="#{convocacaoMB.convocados}"  columns="1"  
+                            paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}">
+                    <p:panel id="pnl" header="#{convocado.idarbitro.nome}"  style=" font-size: larger">
+                        <div class="ui-g">
+                            <div class="ui-g-2" align="left"> <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="120" width="120"  /></div>
+                            <div class="ui-g-6 ui-g-nopad">
+                                <div class="ui-g-12" align="left">
+                                    <div style="position: relative;">
+                                        <p:graphicImage name="images/relatorio/fundo_arbitro.png"/> 
+                                        <div style="position: absolute; top: 3px; left: 29px; font-size: 18px; font-weight: bold ">
+                                            <p:outputLabel  value="#{convocado.idarbitro.nome}"/>
+                                        </div>
+                                        <div style="position: absolute; top: 29px; left: 71px; font-size: 12px; color: white; font-weight: bold ">
+                                            <p:outputLabel  value="#{convocado.idarbitro.idassociacao.nome}"/>
+                                        </div>
+                                        <div style="position: absolute; top: 21px; left: 310px ">
+                                            <p:graphicImage name="images/relatorio/grad_#{convocado.idarbitro.categoria}.png"/> 
+                                        </div>
+                                    </div>
+                                </div>                               
+                            </div>
+                             <div class="ui-g-2">
+                                 <p:commandButton value="Check-In" action="#{convocacaoMB.setItem(convocado)}" style="width: 100px; height: 100px" oncomplete="PF('frmDialog').show()" update="frmDialog"  />
+                             </div>
+                        </div>
+                    </p:panel>
+                    <p:draggable for="pnl"  revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                </p:dataGrid>
+            </p:fieldset>
+        </h:form>
+          <p:dialog header="CHECK-IN" id="frmDialog" widgetVar="frmDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="650px">
+            <h:form id="form2">
+                <h:messages /> 
+                <p:panel>
+                    <div class="ui-g">
+                        <div class="ui-g-2">                         
+                          <p:graphicImage name="images/arbitros/#{convocacaoMB.item.idarbitro.id}.jpg" height="120" width="120"  />
+                        </div>
+                        <div class="ui-g-9">
+                        <div style="position: relative;">
+                                <p:graphicImage name="images/relatorio/fundo_arbitro.png"/> 
+                                <div style="position: absolute; top: 3px; left: 29px; font-size: 18px; font-weight: bold ">
+                                    <p:outputLabel  value="#{convocacaoMB.item.idarbitro.nome}"/>
+                                </div>
+                                <div style="position: absolute; top: 29px; left: 71px; font-size: 12px; color: white; font-weight: bold ">
+                                    <p:outputLabel  value="#{convocacaoMB.item.idarbitro.idassociacao.nome}"/>
+                                </div>
+                                <div style="position: absolute; top: 21px; left: 310px ">
+                                    <p:graphicImage name="images/relatorio/grad_#{convocacaoMB.item.idarbitro.categoria}.png"/> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g" style="text-align: center">
+                        <div class="ui-g-12">
+                            <p:fieldset legend="Assinatura">
+                                <p:signature style="width:400px;height:200px" widgetVar="sig" id="assinatura" value="#{convocacaoMB.item.observacao}"  guideline="true" />                                
+                            </p:fieldset>
+                        </div>
+
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4" style="text-align: center">
+                            <p:commandButton  action="#{delegaciaMB.checkIn}" value="Check-In" style="width: 120px; height: 60px" class="btn-success" update=":form1"  oncomplete="PF('frmDialog').hide()"  />                            
+                        </div>
+                        <div class="ui-g-4" style="text-align: center">
+                            <p:commandButton   value="Limpar"  update=":form1"  class="btn-warning" style="width: 120px; height: 60px" onclick="PF('sig').clear()" />                            
+                        </div>
+                        <div class="ui-g-4" style="text-align: center">
+                            <p:commandButton   value="Cancelar"  update=":form1" class="btn-danger" style="width: 120px; height: 60px" oncomplete="PF('frmDialog').hide()"  />                            
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <button id="goFS">Go fullscreen</button>
+        <button id="nogoFS">Exit fullscreen</button>
+        <script>
+          var goFS = document.getElementById("goFS");
+          goFS.addEventListener("click", function() {
+              document.documentElement.requestFullscreen();
+          }, false);
+           var nogoFS = document.getElementById("nogoFS");
+          nogoFS.addEventListener("click", function() {
+              document.documentElement.exitFullscreen();
+          }, false);
+        </script>
+    </h:body>
+</html>
+

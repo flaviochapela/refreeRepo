@@ -52,12 +52,12 @@
                 <div class="ui-g-6">              
                     <p:dataGrid  id="dt_areas" var="area"  value="#{convocacaoMB.areas}"  columns="2" rows="2" paginator="true"  paginatorPosition="top" 
                                  paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}" style="width: 825px"  >
-                        <f:facet name="header">""
-                            Distribuição de Áreas"
+                        <f:facet name="header">
+                            Distribuição de Áreas
                         </f:facet>
                       
                         <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" draggableRows="true" style="width: 400px; height: 400px;   " class="bg-table"
-                            scrollWidth="false" rowStyleClass="#{convocado.area eq area ? 'linha':'shazam'}">
+                            scrollWidth="false" rowStyleClass="#{convocado.area eq area ? '':'shazam'}">
                             <p:ajax event="rowReorder" listener="#{convocacaoMB.addArea(area, false)}"  />
                             <f:facet name="header">                                    
                                 <p:commandButton value="Área - #{area}" actionListener="#{convocacaoMB.addArea(area, true)}" icon="fa fa-fw fa-refresh" update=":form1:dt_areas :form1:arbitrosDisponiveis"/>                                    

@@ -49,7 +49,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     @EJB
     private iDelegacia ejbDelegacia;
 
-    private Campeonato campeonato;
+    private Campeonato campeonato;  
     private List<Arbitro> arbitrosFull;
     private List<Arbitro> arbitros;
     private List<Campeonatoarbitro> convocadosFull;
@@ -82,16 +82,26 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     public void newItem() {
 
     }
+    
+    public void addVoluntario(Arbitro arbitro)
+    {
+        addArbitroCampeonato(arbitro, EnumTipoConvocacao.voluntario, EnumSituacaoConvocacao.aceita, EnumPresenca.aguardando);
+    }
+    
+     public void addConvocacao(Arbitro arbitro)
+    {
+        addArbitroCampeonato(arbitro, EnumTipoConvocacao.nominal, EnumSituacaoConvocacao.aceita, EnumPresenca.aguardando);
+    }
 
-    public void addConvocacao(Arbitro arbitro) {
+    public void addArbitroCampeonato(Arbitro arbitro, EnumTipoConvocacao tipo, EnumSituacaoConvocacao situacao, EnumPresenca presenca) {
 
         final boolean find;
         Campeonatoarbitro ca = new Campeonatoarbitro();
         ca.setIdcampeonato(this.campeonato);
         ca.setIdarbitro(arbitro);
-        ca.setTipo(EnumTipoConvocacao.nominal);
-        ca.setSituacao(EnumSituacaoConvocacao.aceita);
-        ca.setPresenca(EnumPresenca.aguardando);
+        ca.setTipo(tipo);
+        ca.setSituacao(situacao);
+        ca.setPresenca(presenca);
         ca.setArea(0);
         ca.setOrdem(0);
 
@@ -142,7 +152,13 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
     }
   
     public void filterArbitros() {
-        this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
+        if (filterDelegacia != 0)
+        {
+            this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome)).collect(Collectors.toList());
+        }else
+        {
+            this.arbitros = this.arbitrosFull.stream().filter(a -> a.getNome().contains(filterNome) && a.getIdassociacao().getIddelegacia().getId() == filterDelegacia).collect(Collectors.toList());
+        }
     }
 
     public void filterConvocados() {
@@ -170,6 +186,13 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
                 }
             }
         }
+    }
+    
+    
+    public void checkIn() {
+        
+        this.item.setPresenca(EnumPresenca.presente);
+        saveItem();
     }
     
      public void saveArea(Campeonatoarbitro ca, int area, int ordem) {
@@ -250,6 +273,14 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
 
     public void setConvocadosFull(List<Campeonatoarbitro> convocadosFull) {
         this.convocadosFull = convocadosFull;
+    }
+    
+     public Campeonato getCampeonato() {
+        return campeonato;
+    }
+
+    public void setCampeonato(Campeonato campeonato) {
+        this.campeonato = campeonato;
     }
     // </editor-fold>
 }
