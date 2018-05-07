@@ -5,6 +5,7 @@
  */
 package com.dotexperts.hajime.managed;
 
+import com.dotexperts.enummerators.EnumPresenca;
 import com.dotexperts.enummerators.EnumSituacaoConvocacao;
 import com.dotexperts.enummerators.EnumTipoConvocacao;
 import com.dotexperts.hajime.interfaces.iArbitro;
@@ -17,18 +18,13 @@ import com.dotexperts.hajime.model.Campeonatoarbitro;
 import com.dotexperts.hajime.model.Delegacia;
 import com.dotexperts.hajime.util.AreasRelatorio;
 import java.io.Serializable;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import static org.primefaces.component.contextmenu.ContextMenu.PropertyKeys.event;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.ReorderEvent;
@@ -95,6 +91,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
         ca.setIdarbitro(arbitro);
         ca.setTipo(EnumTipoConvocacao.nominal);
         ca.setSituacao(EnumSituacaoConvocacao.aceita);
+        ca.setPresenca(EnumPresenca.aguardando);
         ca.setArea(0);
         ca.setOrdem(0);
 

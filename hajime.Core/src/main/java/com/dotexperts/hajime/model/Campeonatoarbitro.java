@@ -5,6 +5,7 @@
  */
 package com.dotexperts.hajime.model;
 
+import com.dotexperts.enummerators.EnumPresenca;
 import com.dotexperts.enummerators.EnumSituacaoConvocacao;
 import com.dotexperts.enummerators.EnumTipoConvocacao;
 import java.io.Serializable;
@@ -15,12 +16,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -64,6 +67,14 @@ public class Campeonatoarbitro extends GenericModel implements Serializable {
     @ManyToOne(optional = false)
     private Campeonato idcampeonato;
     
+    @Column(name = "presenca")
+    private EnumPresenca presenca;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "observacao")
+    private String observacao;
+
+       
     @Transient
     private boolean selecionado;
   
@@ -137,7 +148,7 @@ public class Campeonatoarbitro extends GenericModel implements Serializable {
         this.idcampeonato = idcampeonato;
     }
     
-    @Transient
+   
     public boolean isSelecionado() {
         return selecionado;
     }
@@ -145,6 +156,23 @@ public class Campeonatoarbitro extends GenericModel implements Serializable {
     public void setSelecionado(boolean selecionado) {
         this.selecionado = selecionado;
     }
+    
+     public EnumPresenca getPresenca() {
+        return presenca;
+    }
+
+    public void setPresenca(EnumPresenca presenca) {
+        this.presenca = presenca;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
 
     @Override
     public int hashCode() {

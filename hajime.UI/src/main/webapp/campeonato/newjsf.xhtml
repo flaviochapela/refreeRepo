@@ -31,7 +31,7 @@
                         </div>                        
                         <p:dataTable id="arbitrosDisponiveis" var="convocado" value="#{convocacaoMB.convocados}" rowStyleClass="#{convocado.area eq 0 ? null: 'shazam'}">
 
-                            <p:column  width="30" styleClass="#{(convocado.presenca eq 0) ? 'lista_aguardando': (convocado.presenca eq 1) ? 'lista_presente' : 'lista_ausente'}" >
+                            <p:column  width="30">
                                 <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30" rendered="#{convocado.area == 0}"  />
                             </p:column>
                             <p:column headerText="Nome" width="150px" >
@@ -88,3 +88,98 @@
     </h:body>
 </html>
 
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10/04/2018, 16:57:47
+    Author     : admprodesp
+*/
+
+root {
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+/* We can adjust the font-size value if we wish to make PrimeFaces components stand out by making them larger or smaller so that they don't take up as much space on the page */
+
+.ui-widget {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+}
+
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.ui-orderlist-list
+{
+    background:none;
+    background-color:transparent;
+    background-image: none;
+    background-repeat: no-repeat;
+    border: none; 
+    height: 200px;
+    
+     
+
+
+}
+.ui-orderlist
+{
+    height: 300px;
+    
+    
+}
+
+.ui-widget-content2
+{
+    padding-top: 22px;
+   padding-left: 25px;
+    
+   
+
+  
+}
+.ui-orderlist .ui-orderlist-list
+{
+    height: 240px;
+    width: 250px;
+   
+}    
+
+.bg-table {
+width: 100%;
+    height: 300px;
+    border: 20px solid #7270fb;
+    background: #ffff68;
+    padding: 5px;
+    box-sizing: border-box;
+    
+}
+
+.bg-table .ui-widget-header{
+    background: transparent!important;
+    border: none!important;
+}
+
+.bg-table .ui-widget-content {     background: transparent!important;
+    border: none;
+    border-color: transparent!important;
+}
+
+
+
+.shazam
+{
+    display: none;  
+    background-color: transparent;
+}
+
+.linha
+{
+    background-color: transparent;
+}
