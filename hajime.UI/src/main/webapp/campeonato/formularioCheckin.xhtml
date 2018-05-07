@@ -11,7 +11,7 @@
     <h:body>
         <h:outputStylesheet name="css/default.css" />
         <h:form id="form1">
-             <p:commandButton  action="#{convocacaoMB.redirect('listagemArbitros.xhtml')}" value="Adicionar Arbitro"  update=":form2" oncomplete="PF('frmDialog').show()"  />
+            <p:commandButton  action="#{convocacaoMB.redirect('listagemArbitros.xhtml', convocacaoMB.campeonato)}" value="Adicionar Arbitro"  update=":form2"   />
             <p:fieldset id="arbitrosDisponiveisField" legend="Check-In de Arbitros" >
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -49,7 +49,7 @@
                                 </div>                               
                             </div>
                              <div class="ui-g-2">
-                                 <p:commandButton value="Check-In" action="#{convocacaoMB.setItem(convocado)}" style="width: 100px; height: 100px" oncomplete="PF('frmDialog').show()" update="frmDialog"  />
+                                 <p:commandButton value="Check-In" action="#{convocacaoMB.setItem(convocado)}" style="width: 100px; height: 100px" oncomplete="PF('frmDialog').show()" update="frmDialog"  rendered="#{convocado.presenca.valor == 0}" />
                              </div>
                         </div>
                     </p:panel>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="ui-g">
                         <div class="ui-g-4" style="text-align: center">
-                            <p:commandButton  action="#{delegaciaMB.checkIn}" value="Check-In" style="width: 120px; height: 60px" class="btn-success" update=":form1"  oncomplete="PF('frmDialog').hide()"  />                            
+                            <p:commandButton  action="#{convocacaoMB.checkIn}" value="Check-In" style="width: 120px; height: 60px" class="btn-success" update=":form1"  oncomplete="PF('frmDialog').hide()"  />                            
                         </div>
                         <div class="ui-g-4" style="text-align: center">
                             <p:commandButton   value="Limpar"  update=":form1"  class="btn-warning" style="width: 120px; height: 60px" onclick="PF('sig').clear()" />                            
