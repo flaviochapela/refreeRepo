@@ -14,7 +14,7 @@
             <p:growl id="msgs" />
             <p:commandButton  actionListener="#{convocacaoMB.gerarRelatorio()}" value="Relatorio"  />
             <div class="ui-g">
-                <div class="ui-g-6">
+                <div class="ui-g-5">
                     <p:fieldset id="arbitrosDisponiveisField" legend="Lista de Arbitros" style="width: 500px;"  >
                         <div class="ui-g">
                             <div class="ui-g-12">
@@ -50,28 +50,29 @@
                     </p:fieldset>
                 </div>
                 <div class="ui-g-6">              
-                    <p:dataGrid  id="dt_areas" var="area"  value="#{convocacaoMB.areas}"  columns="2" rows="4" paginator="true"  paginatorPosition="top" 
-                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}"  >
-                        <f:facet name="header">
-                            Distribuição de Áreas
+                    <p:dataGrid  id="dt_areas" var="area"  value="#{convocacaoMB.areas}"  columns="2" rows="2" paginator="true"  paginatorPosition="top" 
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}" style="width: 825px"  >
+                        <f:facet name="header">""
+                            Distribuição de Áreas"
                         </f:facet>
                       
-                        <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" draggableRows="true" style="width: 320px; height: 320px" scrollWidth="false" rowStyleClass="#{convocado.area eq area ? null: 'shazam'}">
+                        <p:dataTable  value="#{convocacaoMB.convocados}" var="convocado" draggableRows="true" style="width: 400px; height: 400px;" class="bg-table"
+                            scrollWidth="false" rowStyleClass="#{convocado.area eq area ? 'linha':'shazam'}">
                             <p:ajax event="rowReorder" listener="#{convocacaoMB.addArea(area, false)}"  />
                             <f:facet name="header">                                    
                                 <p:commandButton value="Área - #{area}" actionListener="#{convocacaoMB.addArea(area, true)}" icon="fa fa-fw fa-refresh" update=":form1:dt_areas :form1:arbitrosDisponiveis"/>                                    
                             </f:facet>
                             <p:column width="20">
-                                <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" width="20" height="20" />
+                                <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" width="30" height="30" />
                             </p:column>
-                            <p:column width="90">
+                            <p:column width="110">
                                 <h:outputText value="#{convocado.idarbitro.nome}" />
                             </p:column>
                             <p:column width="80">
                                 <p:graphicImage name="images/relatorio/grad_conv_#{convocado.idarbitro.categoria}.png"  />
                             </p:column>
                             <p:column width="20">
-                                <p:commandButton actionListener="#{convocacaoMB.RemoveArea(convocado)}"  icon="fa fa-fw fa-close" update=":form1:dt_areas :form1:arbitrosDisponiveis" />
+                                <p:commandButton actionListener="#{convocacaoMB.RemoveArea(convocado)}"  icon="fa fa-close" update=":form1:dt_areas :form1:arbitrosDisponiveis" />
                             </p:column>                            
                         </p:dataTable>
                      
@@ -79,6 +80,11 @@
                 </div>
             </div>
         </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage name="/images/loading.gif" />
+        </p:dialog>
     </h:body>
 </html>
 
