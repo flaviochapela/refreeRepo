@@ -83,3 +83,18 @@ width: 100%;
 {
     display: none;    
 }
+.lista_aguardando
+{
+     background: lightgoldenrodyellow;
+}
+
+.lista_presente
+{
+    background: lightgreen;
+    
+}
+
+.lista_ausente
+{
+    background: lightsalmon;
+}
