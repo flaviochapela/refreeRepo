@@ -4,7 +4,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      >
+          
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>hajime!</title>
     </h:head>
@@ -57,51 +58,9 @@
                 </p:dataGrid>
             </p:fieldset>
         </h:form>
-          <p:dialog header="CHECK-IN" id="frmDialog" widgetVar="frmDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="650px">
-            <h:form id="form2">
-                <h:messages /> 
-                <p:panel>
-                    <div class="ui-g">
-                        <div class="ui-g-2">                         
-                          <p:graphicImage name="images/arbitros/#{convocacaoMB.item.idarbitro.id}.jpg" height="120" width="120"  />
-                        </div>
-                        <div class="ui-g-9">
-                        <div style="position: relative;">
-                                <p:graphicImage name="images/relatorio/fundo_arbitro.png"/> 
-                                <div style="position: absolute; top: 3px; left: 29px; font-size: 18px; font-weight: bold ">
-                                    <p:outputLabel  value="#{convocacaoMB.item.idarbitro.nome}"/>
-                                </div>
-                                <div style="position: absolute; top: 29px; left: 71px; font-size: 12px; color: white; font-weight: bold ">
-                                    <p:outputLabel  value="#{convocacaoMB.item.idarbitro.idassociacao.nome}"/>
-                                </div>
-                                <div style="position: absolute; top: 21px; left: 310px ">
-                                    <p:graphicImage name="images/relatorio/grad_#{convocacaoMB.item.idarbitro.categoria}.png"/> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui-g" style="text-align: center">
-                        <div class="ui-g-12">
-                            <p:fieldset legend="Assinatura">
-                                <p:signature style="width:400px;height:200px" widgetVar="sig" id="assinatura" value="#{convocacaoMB.item.observacao}"  guideline="true" />                                
-                            </p:fieldset>
-                        </div>
-
-                    </div>
-                    <div class="ui-g">
-                        <div class="ui-g-4" style="text-align: center">
-                            <p:commandButton  action="#{convocacaoMB.checkIn}" value="Check-In" style="width: 120px; height: 60px" class="btn-success" update=":form1"  oncomplete="PF('frmDialog').hide()"  />                            
-                        </div>
-                        <div class="ui-g-4" style="text-align: center">
-                            <p:commandButton   value="Limpar"  update=":form1"  class="btn-warning" style="width: 120px; height: 60px" onclick="PF('sig').clear()" />                            
-                        </div>
-                        <div class="ui-g-4" style="text-align: center">
-                            <p:commandButton   value="Cancelar"  update=":form1" class="btn-danger" style="width: 120px; height: 60px" oncomplete="PF('frmDialog').hide()"  />                            
-                        </div>
-                    </div>
-                </p:panel>
-            </h:form>
-        </p:dialog>
+        <ui:include src="modalCheckin.xhtml">
+           <ui:param name="redirect" value="0" />
+       </ui:include>
         <button id="goFS">Go fullscreen</button>
         <button id="nogoFS">Exit fullscreen</button>
         <script>

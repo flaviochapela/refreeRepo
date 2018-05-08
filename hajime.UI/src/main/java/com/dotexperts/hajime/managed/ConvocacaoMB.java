@@ -17,6 +17,7 @@ import com.dotexperts.hajime.model.Campeonato;
 import com.dotexperts.hajime.model.Campeonatoarbitro;
 import com.dotexperts.hajime.model.Delegacia;
 import com.dotexperts.hajime.util.AreasRelatorio;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
 
     }
     
-    public void addVoluntario(Arbitro arbitro)
+    public void addVoluntario(Arbitro arbitro) throws IOException
     {
         addArbitroCampeonato(arbitro, EnumTipoConvocacao.voluntario, EnumSituacaoConvocacao.aceita, EnumPresenca.aguardando);
     }
