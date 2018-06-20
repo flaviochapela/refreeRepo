@@ -16,12 +16,15 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.servlet.ServletContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -47,6 +50,7 @@ public class ArbitroMB extends GenericMB<Arbitro> implements Serializable {
 
     private List<Associacao> associacoes;
     private Delegacia delegacia;
+    private List<SelectItem> delegaciaOptions;  
    
 
     @PostConstruct
@@ -55,6 +59,7 @@ public class ArbitroMB extends GenericMB<Arbitro> implements Serializable {
         this.delegacia = ejbdelegacia.get(Integer.parseInt(getParameter("id")));
         this.setListItens(ejbarbitro.getDelegaciaArbitros(this.delegacia.getId()));
         newItem();
+        associacaoOptions();
     }
 
     @Override
@@ -62,13 +67,12 @@ public class ArbitroMB extends GenericMB<Arbitro> implements Serializable {
         this.item = new Arbitro();
         this.item.setIdassociacao(new Associacao());
     }
-
-    public Delegacia getDelegacia() {
-        return delegacia;
-    }
-
-    public void setDelegacia(Delegacia delegacia) {
-        this.delegacia = delegacia;
+ 
+    
+    public void saveModal(Arbitro arbitro)
+    {
+        this.item = arbitro;
+        saveItem();
     }
 
     public void upload(FileUploadEvent event) throws Exception {
@@ -83,5 +87,39 @@ public class ArbitroMB extends GenericMB<Arbitro> implements Serializable {
             out.close();
             
         }
+    }
+       
+    public void associacaoOptions()
+    {
+        List<Delegacia> delegacias = ejbdelegacia.listAll();
+        delegaciaOptions = new ArrayList<>();
+        
+        delegacias.stream().map((d) -> {
+            SelectItemGroup g = new SelectItemGroup(d.getDelegacia());
+            List<SelectItem> groupItems = new ArrayList<>();
+            d.getAssociacaoCollection().forEach((a) -> {
+                groupItems.add(new SelectItem(a.getId(), a.getNome()));
+            });
+            g.setSelectItems(groupItems.toArray(new SelectItem[groupItems.size()]));
+            return g;
+        }).forEachOrdered((g) -> {
+            delegaciaOptions.add(g);
+        });
+    }
+    
+    public Delegacia getDelegacia() {
+        return delegacia;
+    }
+
+    public void setDelegacia(Delegacia delegacia) {
+        this.delegacia = delegacia;
+    }
+    
+    public List<SelectItem> getDelegaciaOptions() {
+        return delegaciaOptions;
+    }
+
+    public void setDelegaciaOptions(List<SelectItem> delegaciaOptions) {
+        this.delegaciaOptions = delegaciaOptions;
     }
 }

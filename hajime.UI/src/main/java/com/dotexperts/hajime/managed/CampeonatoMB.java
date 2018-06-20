@@ -23,6 +23,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -41,6 +42,7 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
     @EJB
     private iDelegacia ejbdelegacia;
 
+    private PieChartModel pieModel1;
     private static final long serialVersionUID = 1L;
     private List<Delegacia> delegacias;
     private List<Federacao> federacoes;
@@ -49,6 +51,7 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
 
     @PostConstruct
     public void init() {
+        createPieModel1();
         this.ejb = ejbCampeonato;
         allItens();
         newItem();
@@ -62,7 +65,27 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
         this.setItem(new Campeonato());
         this.getItem().setIddelegacia(new Delegacia());
     }
+    
+    private void createPieModel1() {
+        pieModel1 = new PieChartModel();
+         
+        pieModel1.set("Brand 1", 540);
+        pieModel1.set("Brand 2", 325);
+        pieModel1.set("Brand 3", 702);
+        pieModel1.set("Brand 4", 421);
+         
+        pieModel1.setTitle("Simple Pie");
+        pieModel1.setLegendPosition("w");
+    }
 
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Form Properties">
+    
+     public PieChartModel getPieModel1() {
+        return pieModel1;
+    }
+     
     public List<Delegacia> getDelegacias() {
         return delegacias;
     }
@@ -86,6 +109,6 @@ public class CampeonatoMB extends GenericMB<Campeonato> implements Serializable 
     public void setArbitros(List<Arbitro> arbitros) {
         this.arbitros = arbitros;
     }
-    
+    //</editor-fold>
   
 }

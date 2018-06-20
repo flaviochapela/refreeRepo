@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <h:head>
+        <title>hajime!</title>  
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>        
+        <script src="../resources/js/jquery.fullpage.js" type="text/javascript"></script>
+        <link href="../resources/js/jquery.fullpage.css" rel="stylesheet" type="text/css"/>        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#fullpage').fullpage({
+                    sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff'],
+                    anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
+                    menu: '#menu',
+
+                    //equivalent to jQuery `easeOutBack` extracted from http://matthewlein.com/ceaser/
+                    easingcss3: 'cubic-bezier(0.175, 0.885, 0.320, 1.275)'
+                });
+
+            });
+        </script>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/default.css" />           
+        <h:form id="form1"></h:form>
+        <div id="fullpage">
+            <div class="section " id="section0">
+                <h1>Campeonato A</h1>
+                <p>ddd<p:chart type="pie" model="#{campeonatoMB.pieModel1}" style="width:400px;height:300px" /></p>
+            </div>
+            <div class="section" id="section1">
+                <div class="intro">
+                    <img src="imgs/1.png" alt="Cool" />
+                       <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                         <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                         <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                         <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                         <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>  <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                      <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>  <img src="imgs/1.png" alt="Cool" />
+                    <h1>easeOutBack</h1>
+                    <p>This example is working with `easeOutBack` effect instead of the default</p>
+                    <p>You can see more about them <a href="http://jqueryui.com/resources/demos/effect/easing.html" target="_blank">here</a></p>
+                    
+                    
+                    
+                </div>
+            </div>
+            <div class="section" id="section2">
+                <div class="intro">
+                    <h1>Cool uh?</h1>
+                    <p>Choose the best easing effect for your site!</p>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

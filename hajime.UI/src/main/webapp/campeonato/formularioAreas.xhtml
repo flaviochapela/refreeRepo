@@ -31,7 +31,7 @@
                         </div>                        
                         <p:dataTable id="arbitrosDisponiveis" var="convocado" value="#{convocacaoMB.convocados}" rowStyleClass="#{convocado.area eq 0 ? null: 'shazam'}">
 
-                            <p:column  width="30" styleClass="#{(convocado.presenca eq 0) ? 'lista_aguardando': (convocado.presenca eq 1) ? 'lista_presente' : 'lista_ausente'}" >
+                            <p:column  width="30" >
                                 <p:graphicImage name="images/arbitros/#{convocado.idarbitro.id}.jpg" height="30" width="30" rendered="#{convocado.area == 0}"  />
                             </p:column>
                             <p:column headerText="Nome" width="150px" >

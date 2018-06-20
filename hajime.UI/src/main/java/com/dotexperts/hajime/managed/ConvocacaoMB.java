@@ -8,6 +8,7 @@ package com.dotexperts.hajime.managed;
 import com.dotexperts.enummerators.EnumPresenca;
 import com.dotexperts.enummerators.EnumSituacaoConvocacao;
 import com.dotexperts.enummerators.EnumTipoConvocacao;
+import com.dotexperts.hajime.infrastructure.mail.sendMail;
 import com.dotexperts.hajime.interfaces.iArbitro;
 import com.dotexperts.hajime.interfaces.iCampeonato;
 import com.dotexperts.hajime.interfaces.iCampeonatoArbitro;
@@ -110,6 +111,8 @@ public class ConvocacaoMB extends GenericMB<Campeonatoarbitro> implements Serial
             this.convocados.add(ca);
             this.item = ca;
             saveItem();
+            sendMail M = new sendMail();
+            M.send("TESTE DE ENVIO","CORPO DE EMAIL","fchapela2004@hotmail.com");
         }
     }
 
