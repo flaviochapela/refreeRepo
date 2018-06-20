@@ -24,4 +24,5 @@ public interface iCampeonato extends iBase<Campeonato> {
     public int respostaConvocacao(int idcampeonato, int idarbitro, boolean resposta, String justificativa);
     public Campeonatoarbitro addArbitroArea(Campeonatoarbitro ca);
     public Campeonato getCampeonato(int id);
+    public void enviarConvocacao(int id);
  }

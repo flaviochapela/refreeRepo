@@ -56,6 +56,11 @@ public abstract class baseEJB<T extends GenericModel> implements iBase<T> {
         GenericDao dao = new GenericDao(mytype());
         return dao.listAll();
     }
+    
+    public void sendMessage()
+    {
+        
+    }
 
     public Type[] getParameterizedTypes(Object object) {
         Type superclassType = object.getClass().getGenericSuperclass();

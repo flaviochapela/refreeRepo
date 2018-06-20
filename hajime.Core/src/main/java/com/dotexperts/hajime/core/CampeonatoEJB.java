@@ -79,4 +79,9 @@ public class CampeonatoEJB extends baseEJB<Campeonato> implements iCampeonato {
         
     }
 
+    @Override
+    public void enviarConvocacao(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
